@@ -14,7 +14,7 @@ Aangezien de huidige woningcrisis in Nederland (anno 2026) niet nieuw is -- eerd
 
 ### Doorlooptijden Nieuwbouw 
 
-ID:86260NED
+ID:86260NED 
 https://opendata.cbs.nl/ODataApi/odata/86260NED
 
 Deze tabel bevat doorlooptijden van nieuwbouw van woningen en niet-woningen, van vergunningverlening tot oplevering. 
