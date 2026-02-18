@@ -1,0 +1,56 @@
+# Environment variables (NEVER commit!)
+.env
+.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+ENV/
+*.egg-info/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Data files (can be large!)
+data/raw/*.csv
+data/raw/*.parquet
+data/raw/*.json
+data/processed/*.csv
+data/processed/*.parquet
+
+# But keep directories (Windows equivalent)
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# Logs
+logs/
+*.log
+
+# Power BI
+*.pbix.tmp
+*.pbit
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# SQL exports
+data/sql_exports/*.csv
+data/sql_exports/*.xlsx
+data/sql_exports/*.json
+!data/sql_exports/.gitkeep
