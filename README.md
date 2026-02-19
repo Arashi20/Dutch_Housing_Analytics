@@ -14,8 +14,8 @@ Aangezien de huidige woningcrisis in Nederland (anno 2026) niet nieuw is -- eerd
 
 ### Doorlooptijden Nieuwbouw 
 
-ID:86260NED 
-https://opendata.cbs.nl/ODataApi/odata/86260NED
+ID: 86260NED 
+(https://opendata.cbs.nl/ODataApi/odata/86260NED)
 
 Deze tabel bevat doorlooptijden van nieuwbouw van woningen en niet-woningen, van vergunningverlening tot oplevering. 
 
@@ -31,8 +31,8 @@ Totaal aantal cellen: 65.835
 
 ## Woningen en niet-woningen in de pijplijn
 
-ID:82211NED
-https://opendata.cbs.nl/ODataApi/odata/82211NED
+ID: 82211NED
+(https://opendata.cbs.nl/ODataApi/odata/82211NED)
 
 Deze tabel bevat gegevens over woningen en niet-woningen in de pijplijn in Nederland. Voor elke maand is inzichtelijk gemaakt hoeveel verblijfsobjecten in de pijplijn zitten om gebouwd te worden: deze hebben ofwel een verleende bouwvergunning, of er is een melding gemaakt van bouw gestart. 
 
@@ -45,11 +45,10 @@ Dimensies:
 Totaal aantal cellen: 2.398.275
 
 
-
-
-
-
-
+## Tech stack (Voorlopig)
+- SQL
+- Power BI
+- Python
 
 
 

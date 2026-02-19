@@ -54,3 +54,7 @@ data/sql_exports/*.csv
 data/sql_exports/*.xlsx
 data/sql_exports/*.json
 !data/sql_exports/.gitkeep
+
+
+# Github instructions
+.github/
