@@ -14,42 +14,64 @@ Aangezien de huidige woningcrisis in Nederland (anno 2026) niet nieuw is -- eerd
 
 ### Doorlooptijden Nieuwbouw 
 
-ID: 86260NED 
-(https://opendata.cbs.nl/ODataApi/odata/86260NED)
+**ID:** 86260NED  
+**URL:** https://opendata.cbs.nl/ODataApi/odata/86260NED
 
-Deze tabel bevat doorlooptijden van nieuwbouw van woningen en niet-woningen, van vergunningverlening tot oplevering. 
+Deze tabel bevat doorlooptijden van nieuwbouw van woningen en niet-woningen, van vergunningverlening tot oplevering.
 
-Dimensies:
-- "Onderwerpen": 10% Kwantiel doorlooptijd (maanden), Mediaan doorlooptijd (maanden), etc. (7 totaal).
-- "Regiokenmerken": Zeer stedelijk, Nederland, Utrecht (PV), etc. (19 totaal).
-- "Gebruiksfunctie": Woning totaal, Niet-woning totaal, etc. (3 totaal).
-- "Woningtype": Eengezinswoning, Meergezinswoning, Totaal. (3 totaal).
-- "Perioden": Jaren, Kwartalen, 2015 1e kwartaal, etc. (55 totaal).
+**Dimensies (filter-assen):**
+- **Regiokenmerken** (19 items): Zeer stedelijk, Nederland, Utrecht (PV), etc.
+- **Gebruiksfunctie** (3 items): Woning totaal, Niet-woning totaal, etc.
+- **Woningtype** (3 items): Eengezinswoning, Meergezinswoning, Totaal
+- **Perioden** (55 items): Kwartalen vanaf 2015 Q1 (format: `2015KW01`)
+  - Granulariteit: Per kwartaal
 
-Totaal aantal cellen: 65.835
+**Measures (kolommen in de data):**
+- `NieuwbouwTotaal_1`: Totaal aantal nieuwbouw
+- `k_10KwantielDoorlooptijdMaanden_2`: 10e percentiel doorlooptijd (snelle projecten)
+- `k_25KwantielDoorlooptijdMaanden_3`: 25e percentiel
+- `MediaanDoorlooptijdMaanden_4`: Mediaan doorlooptijd (meest representatief)
+- `k_75KwantielDoorlooptijdMaanden_5`: 75e percentiel
+- `k_90KwantielDoorlooptijdMaanden_6`: 90e percentiel (trage projecten)
+- `GemiddeldeDoorlooptijdMaanden_7`: Gemiddelde doorlooptijd
 
+**Data structuur:** OLAP cube (multi-dimensionaal)  
+**Totaal aantal cellen:** 65.835  
+**Geverifieerd:** 2026-02-18 via CBS OData API test
 
 ## Woningen en niet-woningen in de pijplijn
 
-ID: 82211NED
-(https://opendata.cbs.nl/ODataApi/odata/82211NED)
+**ID:** 82211NED  
+**URL:** https://opendata.cbs.nl/ODataApi/odata/82211NED
 
-Deze tabel bevat gegevens over woningen en niet-woningen in de pijplijn in Nederland. Voor elke maand is inzichtelijk gemaakt hoeveel verblijfsobjecten in de pijplijn zitten om gebouwd te worden: deze hebben ofwel een verleende bouwvergunning, of er is een melding gemaakt van bouw gestart. 
+Deze tabel bevat gegevens over woningen en niet-woningen in de pijplijn in Nederland. Voor elke maand is inzichtelijk gemaakt hoeveel verblijfsobjecten in de pijplijn zitten om gebouwd te worden: deze hebben ofwel een verleende bouwvergunning, of er is een melding gemaakt van bouw gestart.
 
-Dimensies:
-- "Onderwerpen": Verblijfsobjecten in de pijplijn, Bouw gestart pijplijn, Verblijfsobjecten >5 jaar in de pijplijn, etc. (9 totaal).
-- "Gebruiksfunctie": Woning totaal, Niet-woning totaal, etc. (3 totaal). 
-- "Regio's": Provincies, Gemeentes, Groningen (PV), etc. (475 totaal).
-- "Perioden": Jaren, Maanden, Kwartalen, 2015 mei, etc. (187 totaal).
+**Dimensies (filter-assen):**
+- **Gebruiksfunctie** (3 items): Woning totaal, Niet-woning totaal, etc.
+- **RegioS** (475 items): Alle provincies + gemeentes
+  - Bevat ALLE Nederlandse gemeentes (zeer gedetailleerd!)
+- **Perioden** (187 items): Maandelijkse data vanaf 2015 (format: `2015MM01`)
+  - Granulariteit: Per maand (!)
+  - *Let op:* Meer gedetailleerd dan Dataset 1 (maandelijks vs. kwartaal)
 
-Totaal aantal cellen: 2.398.275
+**Measures (kolommen in de data):**
+- `VerblijfsobjectenInDePijplijnTotaal_1`: Totaal aantal objecten in pijplijn
+- `BouwGestartPijplijn_2`: Aantal waar bouw is gestart
+- `Vergunningspijplijn_3`: Aantal in vergunningsfase (bottleneck!)
+- `TotaalInDePijplijn2Jaar_4`: **KRITIEK** - Projecten langer dan 2 jaar vast
+- `BouwGestartPijplijn2Jaar_5`: Bouw >2 jaar geleden gestart (vertraging)
+- `Vergunningspijplijn2Jaar_6`: Vergunning >2 jaar geleden (bureaucratie!)
+- `TotaalInDePijplijn5Jaar_7`: **ZEER KRITIEK** - Projecten langer dan 5 jaar vast
+
+**Data structuur:** OLAP cube (multi-dimensionaal)  
+**Totaal aantal cellen:** 2.398.275 (groot!)  
+**Geverifieerd:** 2026-02-18 via CBS OData API test
 
 
 ## Tech stack (Voorlopig)
 - SQL
 - Power BI
 - Python
-
 
 
 
