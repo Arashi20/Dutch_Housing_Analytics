@@ -108,6 +108,8 @@ DOORLOOPTIJD_CONFIG = {
         'MediaanDoorlooptijdMaanden_4',        # Median - most representative
         'GemiddeldeDoorlooptijdMaanden_7',     # Average - for comparison
         'k_10KwantielDoorlooptijdMaanden_2',   # 10th percentile - fast projects
+        'k_25KwantielDoorlooptijdMaanden_3',   # 25th percentile - faster projects        
+        'k_75KwantielDoorlooptijdMaanden_5',   # 75th percentile - slower projects
         'k_90KwantielDoorlooptijdMaanden_6',   # 90th percentile - slow projects
         'NieuwbouwTotaal_1',                   # Total count (for context)
     ],
