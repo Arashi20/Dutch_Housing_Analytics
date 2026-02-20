@@ -112,6 +112,26 @@ Deze tabel bevat gegevens over woningen en niet-woningen in de pijplijn in Neder
 - Python
 
 
+## Complete Workflow (Voorlopig)
+
+- Fase 1: Voorbereiding Data
+  - Haal data op via API
+  - Transformeren en opschonen
+  - Laad in SQL en CSVs
+
+- Fase 2: Statistische Analyse (Python)
+  - python/analyze_statistics.py
+  - Allerlij statistiche tests (ANOVA, Regression, etc.)
+  - Exporteer resultaten in results/*.csv
+
+- Fase 3: Visualisaties (Power BI)
+  - Koppel aan SQL views (pre-aggregated)
+  - Importeer resultaten vanuit results/*.csv
+  - Maak interactive dashboards
+  - Voeg DAX measures toe
+
+
+
 
 ## Verwijzingen
 
