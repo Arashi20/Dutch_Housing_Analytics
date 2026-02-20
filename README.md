@@ -9,6 +9,40 @@ Zelf kamp ik ook ernstig met dit probleem. Met een WO-diploma op zak kun je in v
 
 Aangezien de huidige woningcrisis in Nederland (anno 2026) niet nieuw is -- eerder een slepend probleem waar veel ogen en haken aan vastzitten -- wil ik zelf in de cijfers van het CBS duiken (omtrent woningbouw) om de knelpunten te begrijpen, visualisaties te maken van de data, en een algemee beeld te krijgen van de Nederlandse woningmarkt over de jaren heen. 
 
+## Onderzoekskader
+
+### Hoofdvraag
+
+**"Wat zijn de belangrijkste knelpunten in het Nederlandse woningbouwproces die bijdragen aan het structurele woningtekort, en hoe verschillen deze knelpunten tussen regio's en stedelijkheidsniveaus?"**
+
+Deze vraag is relevant voor beleidsmakers omdat het:
+- Identificeert **waar** in het proces vertragingen ontstaan (vergunning vs. bouw)
+- Toont **welke regio's** het meest getroffen zijn (targetted interventions)
+- Kwantificeert de **omvang** van het probleem (evidence-based policy)
+- Biedt **vergelijkbare metrics** tussen gemeentes (benchmarking)
+
+---
+
+### Deelvragen
+
+#### 1. Doorlooptijd Analyse
+**"Hoe lang duurt het gemiddeld om een woning te bouwen (van vergunning tot oplevering) en hoe is dit veranderd sinds 2015?"**
+
+#### 2. Regionale Verschillen
+**"Zijn er significante verschillen in doorlooptijden en pijplijn-bottlenecks tussen provincies en stedelijkheidsgraden?"**
+
+#### 3. Pijplijn Bottlenecks
+**"Waar in het bouwproces ontstaan de grootste vertragingen en welk percentage projecten loopt vast in de pijplijn?"**
+
+#### 4. Woningtype Verschillen
+**"Verschilt de doorlooptijd significant tussen eengezinswoningen en meergezinswoningen?"**
+
+#### 5. Temporele Patronen
+**"Zijn er seizoenseffecten of economische cycli waarneembaar in doorlooptijden en pijplijn-volumes?"**
+
+### Methodologie
+
+(Placeholder voor nu).
 
 ## Datasets
 
@@ -39,7 +73,7 @@ Deze tabel bevat doorlooptijden van nieuwbouw van woningen en niet-woningen, van
 **Totaal aantal cellen:** 65.835  
 **Geverifieerd:** 2026-02-18 via CBS OData API test
 
-## Woningen en niet-woningen in de pijplijn
+### Woningen en niet-woningen in de pijplijn
 
 **ID:** 82211NED  
 **URL:** https://opendata.cbs.nl/ODataApi/odata/82211NED
@@ -66,6 +100,10 @@ Deze tabel bevat gegevens over woningen en niet-woningen in de pijplijn in Neder
 **Data structuur:** OLAP cube (multi-dimensionaal)  
 **Totaal aantal cellen:** 2.398.275 (groot!)  
 **Geverifieerd:** 2026-02-18 via CBS OData API test
+
+### Bevolking per gemeente
+
+(Additionele dataset die ik nog moet vinden). 
 
 
 ## Tech stack (Voorlopig)
