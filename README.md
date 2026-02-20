@@ -130,7 +130,9 @@ Deze tabel bevat gegevens over woningen en niet-woningen in de pijplijn in Neder
   - Maak interactive dashboards
   - Voeg DAX measures toe
 
-
+- Fase 4: Volledig rapport + advies
+  - Maak gebruik van de dashboard en literatuurstudie om een mooi rapport te schrijven
+  - Eventueel aflsuiten met een advies
 
 
 ## Verwijzingen
