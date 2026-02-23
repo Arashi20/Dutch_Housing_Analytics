@@ -16,6 +16,7 @@ Date: 2026-02-19
 Project: Dutch Housing Analytics - Rijksoverheid Portfolio
 """
 
+import calendar
 import pandas as pd
 from pathlib import Path
 from datetime import datetime
@@ -34,8 +35,8 @@ from cbs_api_client import CBSAPIClient, build_period_filter
 # Initialize logger
 logger = get_logger(__name__)
 
-# Number of quarterly chunks per calendar year (Q1-Q4, 3 months each)
-CHUNKS_PER_YEAR = 4
+# Number of monthly chunks per calendar year (one per month)
+CHUNKS_PER_YEAR = 12
 
 
 class HousingDataExtractor:
@@ -280,16 +281,18 @@ class HousingDataExtractor:
         save_formats: list = ['csv', 'parquet']
     ) -> Tuple[pd.DataFrame, Dict[str, pd.DataFrame]]:
         """
-        Extract Woningen Pijplijn dataset (82211NED) in 3-month (quarterly) chunks.
+        Extract Woningen Pijplijn dataset (82211NED) in monthly chunks.
         
         The CBS API hard limit of 10,000 rows per request prevents fetching
         all data at once (475 regions × 3 functions × 187 months = 266k+ rows).
-        This method splits extraction into 3-month (quarterly) chunks, each
-        yielding ~4,275 rows, safely under the API limit.
+        Even 3-month (quarterly) chunks (~4,275 rows) fail for historical data
+        due to CBS query complexity restrictions on this table. This method
+        therefore splits extraction into single-month chunks, each yielding
+        ~1,425 rows (85% safety margin below the 10k limit).
         
         Strategy:
-            Per chunk: 475 regions × 3 functions × 3 months = 4,275 rows ✓
-            For 2015-2025: 44 chunks (4 per year × 11 years)
+            Per chunk: 475 regions × 3 functions × 1 month = 1,425 rows ✓
+            For 2015-2025: 132 chunks (12 per year × 11 years)
         
         Args:
             start_year: Start year for data extraction
@@ -304,7 +307,7 @@ class HousingDataExtractor:
         logger.info("="*60)
         logger.info(f"EXTRACTING WONINGEN PIJPLIJN CHUNKED ({table_id})")
         logger.info(f"Period: {start_year}-{end_year}")
-        logger.info("Strategy: 3-month (quarterly) chunks to avoid CBS API 10k limit")
+        logger.info("Strategy: Monthly chunks (smallest granularity) to guarantee CBS API success")
         logger.info("="*60)
         
         # ────────────────────────────────────────────────────────────
@@ -321,9 +324,9 @@ class HousingDataExtractor:
             self._save_dataframe(dim_df, dim_filename, save_formats)
         
         # ────────────────────────────────────────────────────────────
-        # Step 2: Extract fact data in 3-month (quarterly) chunks
+        # Step 2: Extract fact data in monthly chunks
         # ────────────────────────────────────────────────────────────
-        logger.info("Step 2/3: Extracting fact data (quarterly chunks)")
+        logger.info("Step 2/3: Extracting fact data (monthly chunks)")
         
         measure_cols = PIJPLIJN_CONFIG['measure_columns']
         dimension_cols = ['ID', 'Gebruiksfunctie', 'RegioS', 'Perioden']
@@ -334,34 +337,21 @@ class HousingDataExtractor:
         all_chunks = []
         
         for year in range(start_year, end_year + 1):
-            for quarter in [1, 2, 3, 4]:
+            for month in range(1, 13):
                 chunk_num += 1
                 
-                if quarter == 1:
-                    start_period = f"{year}MM01"
-                    end_period = f"{year}MM03"
-                    quarter_label = "Q1 (Jan-Mar)"
-                elif quarter == 2:
-                    start_period = f"{year}MM04"
-                    end_period = f"{year}MM06"
-                    quarter_label = "Q2 (Apr-Jun)"
-                elif quarter == 3:
-                    start_period = f"{year}MM07"
-                    end_period = f"{year}MM09"
-                    quarter_label = "Q3 (Jul-Sep)"
-                else:  # quarter == 4
-                    start_period = f"{year}MM10"
-                    end_period = f"{year}MM12"
-                    quarter_label = "Q4 (Oct-Dec)"
+                period = f"{year}MM{month:02d}"
+                month_name = calendar.month_name[month]
+                chunk_label = f"{year}-{month:02d} ({month_name})"
                 
                 logger.info(
                     f"  Chunk {chunk_num}/{total_chunks}: "
-                    f"{year} {quarter_label}"
+                    f"{chunk_label}"
                 )
                 
                 period_filter = (
-                    f"Perioden ge '{start_period}' "
-                    f"and Perioden le '{end_period}'"
+                    f"Perioden ge '{period}' "
+                    f"and Perioden le '{period}'"
                 )
                 
                 try:
@@ -381,9 +371,9 @@ class HousingDataExtractor:
                         
                 except Exception as e:
                     logger.exception(
-                        f"Failed to fetch chunk {year} Q{quarter}: {str(e)}"
+                        f"Failed to fetch chunk {chunk_label}: {str(e)}"
                     )
-                    logger.warning(f"Skipping chunk {year} Q{quarter}")
+                    logger.warning(f"Skipping chunk {chunk_label}")
                     continue
         
         # ────────────────────────────────────────────────────────────
@@ -649,7 +639,7 @@ def main():
             
             # Extract Dataset 2 later (after Dataset 1 is verified)
             print("\n" + "🏢 " * 35)
-            print("DATASET 2: WONINGEN PIJPLIJN (CHUNKED - QUARTERLY)")
+            print("DATASET 2: WONINGEN PIJPLIJN (CHUNKED - MONTHLY)")
             print("🏢 " * 35 + "\n")
              
             facts_2, dims_2 = extractor.extract_woningen_pijplijn_chunked(
