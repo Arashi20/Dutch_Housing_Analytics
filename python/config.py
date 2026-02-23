@@ -124,7 +124,7 @@ DOORLOOPTIJD_CONFIG = {
     # Time period (from README: 55 periods = quarters from 2015 Q1)
     'perioden': {
         'start_year': int(os.getenv('EXTRACTION_START_YEAR', 2015)),
-        'end_year': int(os.getenv('EXTRACTION_END_YEAR', 2024)),
+        'end_year': int(os.getenv('EXTRACTION_END_YEAR', 2025)),
         'granularity': 'quarter',  # CBS uses format: '2015KW01'
     }
 }

@@ -458,11 +458,11 @@ def main():
     print("="*70 + "\n")
     
     # Configuration
-    START_YEAR = 2023  # Start small for testing
-    END_YEAR = 2024
+    START_YEAR = 2015  
+    END_YEAR = 2025  # Full historical range
     
     print(f"Extraction period: {START_YEAR}-{END_YEAR}")
-    print("(Testing with small sample first - will expand to 2015-2024 later)")
+    print("(Full historical range - may take longer to extract)")
     print()
     
     # Confirm before proceeding
@@ -520,7 +520,6 @@ def main():
         print("Next steps:")
         print("  1. Verify data quality (check CSV files)")
         print("  2. Run transformation (python/transform_housing_data.py)")
-        print("  3. Expand to full date range (2015-2024)")
         print("="*70 + "\n")
         
     except KeyboardInterrupt:

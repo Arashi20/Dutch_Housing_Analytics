@@ -395,8 +395,8 @@ def main():
     print("="*70 + "\n")
     
     # Configuration (should match extraction period)
-    START_YEAR = 2023
-    END_YEAR = 2024
+    START_YEAR = 2015
+    END_YEAR = 2025
     
     print(f"Transforming data: {START_YEAR}-{END_YEAR}")
     print()
