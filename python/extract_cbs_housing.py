@@ -34,6 +34,9 @@ from cbs_api_client import CBSAPIClient, build_period_filter
 # Initialize logger
 logger = get_logger(__name__)
 
+# Number of half-year chunks per calendar year (H1: Jan-Jun, H2: Jul-Dec)
+CHUNKS_PER_YEAR = 2
+
 
 class HousingDataExtractor:
     """
@@ -270,6 +273,153 @@ class HousingDataExtractor:
         return fact_data, dimensions
     
     
+    def extract_woningen_pijplijn_chunked(
+        self,
+        start_year: int,
+        end_year: int,
+        save_formats: list = ['csv', 'parquet']
+    ) -> Tuple[pd.DataFrame, Dict[str, pd.DataFrame]]:
+        """
+        Extract Woningen Pijplijn dataset (82211NED) in 6-month chunks.
+        
+        The CBS API hard limit of 10,000 rows per request prevents fetching
+        all data at once (475 regions × 3 functions × 187 months = 266k+ rows).
+        This method splits extraction into 6-month (half-year) chunks, each
+        yielding ~8,550 rows, safely under the API limit.
+        
+        Strategy:
+            Per chunk: 475 regions × 3 functions × 6 months = 8,550 rows ✓
+            For 2015-2025: 22 chunks (2 per year × 11 years)
+        
+        Args:
+            start_year: Start year for data extraction
+            end_year: End year for data extraction
+            save_formats: List of formats to save ('csv', 'parquet')
+            
+        Returns:
+            Tuple of (fact_data, dimensions_dict)
+        """
+        table_id = PIJPLIJN_CONFIG['table_id']
+        
+        logger.info("="*60)
+        logger.info(f"EXTRACTING WONINGEN PIJPLIJN CHUNKED ({table_id})")
+        logger.info(f"Period: {start_year}-{end_year}")
+        logger.info("Strategy: 6-month chunks to avoid CBS API 10k limit")
+        logger.info("="*60)
+        
+        # ────────────────────────────────────────────────────────────
+        # Step 1: Extract dimension tables (only once)
+        # ────────────────────────────────────────────────────────────
+        logger.info("Step 1/3: Extracting dimension tables")
+        
+        dimensions = self.client.get_all_dimensions(table_id)
+        
+        for dim_name, dim_df in dimensions.items():
+            logger.info(f"  ✓ Loaded {dim_name}: {len(dim_df)} rows")
+            
+            dim_filename = f"dim_{dim_name.lower()}_{table_id}_{self.timestamp}"
+            self._save_dataframe(dim_df, dim_filename, save_formats)
+        
+        # ────────────────────────────────────────────────────────────
+        # Step 2: Extract fact data in 6-month chunks
+        # ────────────────────────────────────────────────────────────
+        logger.info("Step 2/3: Extracting fact data (chunked)")
+        
+        measure_cols = PIJPLIJN_CONFIG['measure_columns']
+        dimension_cols = ['ID', 'Gebruiksfunctie', 'RegioS', 'Perioden']
+        select_cols = dimension_cols + measure_cols
+        
+        total_chunks = (end_year - start_year + 1) * CHUNKS_PER_YEAR
+        chunk_num = 0
+        all_chunks = []
+        
+        for year in range(start_year, end_year + 1):
+            for half in [1, 2]:
+                chunk_num += 1
+                
+                if half == 1:
+                    start_period = f"{year}MM01"
+                    end_period = f"{year}MM06"
+                    half_label = "H1 (Jan-Jun)"
+                else:
+                    start_period = f"{year}MM07"
+                    end_period = f"{year}MM12"
+                    half_label = "H2 (Jul-Dec)"
+                
+                logger.info(
+                    f"  Chunk {chunk_num}/{total_chunks}: "
+                    f"{year} {half_label}"
+                )
+                
+                period_filter = (
+                    f"Perioden ge '{start_period}' "
+                    f"and Perioden le '{end_period}'"
+                )
+                
+                try:
+                    chunk_data = self.client.get_data_paginated(
+                        table_id=table_id,
+                        filters=[period_filter],
+                        select=select_cols
+                    )
+                    
+                    if not chunk_data.empty:
+                        all_chunks.append(chunk_data)
+                        logger.info(
+                            f"    ✓ Fetched {len(chunk_data):,} rows"
+                        )
+                    else:
+                        logger.info(f"    • No data for this period")
+                        
+                except Exception as e:
+                    logger.exception(
+                        f"Failed to fetch chunk {year} H{half}: {str(e)}"
+                    )
+                    logger.warning(f"Skipping chunk {year} H{half}")
+                    continue
+        
+        # ────────────────────────────────────────────────────────────
+        # Step 3: Combine all chunks
+        # ────────────────────────────────────────────────────────────
+        logger.info("Step 3/3: Combining all chunks")
+        
+        if not all_chunks:
+            logger.warning("No data fetched from any chunk")
+            return pd.DataFrame(), dimensions
+        
+        fact_data = pd.concat(all_chunks, ignore_index=True)
+        logger.info(f"  Combined total: {len(fact_data):,} rows")
+        
+        # Data quality checks
+        logger.info("Data quality summary:")
+        logger.info(f"  • Total rows: {len(fact_data):,}")
+        logger.info(f"  • Total columns: {len(fact_data.columns)}")
+        logger.info(
+            f"  • Memory usage: "
+            f"{fact_data.memory_usage(deep=True).sum() / 1024**2:.2f} MB"
+        )
+        
+        # Check for nulls
+        null_counts = fact_data.isnull().sum()
+        if null_counts.sum() > 0:
+            logger.warning("Null values detected:")
+            for col, count in null_counts[null_counts > 0].items():
+                pct = (count / len(fact_data)) * 100
+                logger.warning(f"  • {col}: {count} ({pct:.1f}%)")
+        
+        # Save combined fact data
+        fact_filename = (
+            f"fact_woningen_pijplijn_{start_year}_{end_year}_"
+            f"{table_id}_{self.timestamp}"
+        )
+        
+        self._save_dataframe(fact_data, fact_filename, save_formats)
+        
+        logger.info("✓ Woningen Pijplijn (chunked) extraction complete!")
+        
+        return fact_data, dimensions
+    
+    
     def _save_dataframe(
         self,
         df: pd.DataFrame,
@@ -494,7 +644,7 @@ def main():
             print("DATASET 2: WONINGEN PIJPLIJN")
             print("🏢 " * 35 + "\n")
              
-            facts_2, dims_2 = extractor.extract_woningen_pijplijn(
+            facts_2, dims_2 = extractor.extract_woningen_pijplijn_chunked(
                 START_YEAR,
                 END_YEAR,
                 save_formats=['csv', 'parquet']
