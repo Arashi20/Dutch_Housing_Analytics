@@ -489,19 +489,18 @@ def main():
             
             print(f"\n✓ Dataset 1 complete: {len(facts_1):,} rows extracted")
             
-            # TODO: Extract Dataset 2 later (after Dataset 1 is verified)
-            # Uncomment when ready:
-            # print("\n" + "🏢 " * 35)
-            # print("DATASET 2: WONINGEN PIJPLIJN")
-            # print("🏢 " * 35 + "\n")
-            # 
-            # facts_2, dims_2 = extractor.extract_woningen_pijplijn(
-            #     START_YEAR,
-            #     END_YEAR,
-            #     save_formats=['csv', 'parquet']
-            # )
-            # 
-            # print(f"\n✓ Dataset 2 complete: {len(facts_2):,} rows extracted")
+            # Extract Dataset 2 later (after Dataset 1 is verified)
+            print("\n" + "🏢 " * 35)
+            print("DATASET 2: WONINGEN PIJPLIJN")
+            print("🏢 " * 35 + "\n")
+             
+            facts_2, dims_2 = extractor.extract_woningen_pijplijn(
+                START_YEAR,
+                END_YEAR,
+                save_formats=['csv', 'parquet']
+            )
+             
+            print(f"\n✓ Dataset 2 complete: {len(facts_2):,} rows extracted")
 
         print("\n" + "🧹 " * 35)
         cleanup_old_extractions(keep_last_n=1)

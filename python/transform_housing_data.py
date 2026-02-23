@@ -341,6 +341,213 @@ class HousingDataTransformer:
         
         return df
     
+    def transform_woningen_pijplijn(
+        self,
+        start_year: int,
+        end_year: int
+    ) -> pd.DataFrame:
+        """
+        Transform Woningen Pijplijn dataset.
+        
+        Similar to transform_doorlooptijden but for pipeline data.
+        Focus: Bottleneck analysis (where projects get stuck)
+        
+        Args:
+            start_year: Start year of extracted data
+            end_year: End year of extracted data
+            
+        Returns:
+            Transformed DataFrame ready for analysis
+        """
+        logger.info("="*60)
+        logger.info(f"TRANSFORMING WONINGEN PIJPLIJN ({start_year}-{end_year})")
+        logger.info("="*60)
+        
+        # ────────────────────────────────────────────────────────────
+        # Step 1: Load raw fact data
+        # ────────────────────────────────────────────────────────────
+        logger.info("Step 1/6: Loading raw fact data")
+        
+        pattern = f"fact_woningen_pijplijn_{start_year}_{end_year}_*.csv"
+        fact_file = self.find_latest_file(pattern)
+        
+        if not fact_file:
+            raise FileNotFoundError(f"Fact file not found: {pattern}")
+        
+        df = pd.read_csv(fact_file)
+        logger.info(f"  Loaded {len(df):,} rows, {len(df.columns)} columns")
+        
+        # ────────────────────────────────────────────────────────────
+        # Step 2: Load dimension tables
+        # ────────────────────────────────────────────────────────────
+        logger.info("Step 2/6: Loading dimension tables (legenda's)")
+        
+        dimensions = self.load_dimensions('82211NED')
+        
+        # Note: Dataset 2 uses 'RegioS' not 'Regiokenmerken'!
+        if 'regiokenmerken' in dimensions and dimensions['regiokenmerken'].empty:
+            # Try 'regios' instead (different dimension name)
+            pattern_regios = f"dim_regios_82211NED_*.csv"
+            regios_file = self.find_latest_file(pattern_regios)
+            
+            if regios_file:
+                dimensions['regios'] = pd.read_csv(regios_file)
+                logger.info(f"  ✓ Loaded regios: {len(dimensions['regios'])} rows")
+        
+        # ────────────────────────────────────────────────────────────
+        # Step 3: Join dimensions (codes → readable names)
+        # ────────────────────────────────────────────────────────────
+        logger.info("Step 3/6: Joining dimensions (codes → names)")
+        
+        # Join RegioS (Region) - note different column name!
+        if 'regios' in dimensions and not dimensions['regios'].empty:
+            df = df.merge(
+                dimensions['regios'][['Key', 'Title']],
+                left_on='RegioS',
+                right_on='Key',
+                how='left',
+                suffixes=('', '_dim')
+            )
+            df = df.rename(columns={'Title': 'Regio_Naam'})
+            df = df.drop(columns=['Key'], errors='ignore')
+            logger.info("  ✓ Joined RegioS → Regio_Naam")
+        
+        # Join Gebruiksfunctie
+        if 'gebruiksfunctie' in dimensions and not dimensions['gebruiksfunctie'].empty:
+            df = df.merge(
+                dimensions['gebruiksfunctie'][['Key', 'Title']],
+                left_on='Gebruiksfunctie',
+                right_on='Key',
+                how='left',
+                suffixes=('', '_dim')
+            )
+            df = df.rename(columns={'Title': 'Gebruiksfunctie_Naam'})
+            df = df.drop(columns=['Key'], errors='ignore')
+            logger.info("  ✓ Joined Gebruiksfunctie → Gebruiksfunctie_Naam")
+        
+        # Join Perioden
+        if 'perioden' in dimensions and not dimensions['perioden'].empty:
+            df = df.merge(
+                dimensions['perioden'][['Key', 'Title']],
+                left_on='Perioden',
+                right_on='Key',
+                how='left',
+                suffixes=('', '_dim')
+            )
+            df = df.rename(columns={'Title': 'Periode_Naam'})
+            df = df.drop(columns=['Key'], errors='ignore')
+            logger.info("  ✓ Joined Perioden → Periode_Naam")
+        
+        # ────────────────────────────────────────────────────────────
+        # Step 4: Parse and clean columns
+        # ────────────────────────────────────────────────────────────
+        logger.info("Step 4/6: Parsing and cleaning columns")
+        
+        # Extract year and month from period code
+        # Format: '2023MM01' → year=2023, month=1
+        df['Jaar'] = df['Perioden'].str[:4].astype(int)
+        df['Maand'] = df['Perioden'].str[-2:].astype(int)
+        logger.info("  ✓ Extracted Jaar and Maand from Perioden")
+        
+        # Rename measure columns to more readable names
+        column_mapping = {
+            'VerblijfsobjectenInDePijplijnTotaal_1': 'Pijplijn_Totaal',
+            'BouwGestartPijplijn_2': 'Pijplijn_BouwGestart',
+            'Vergunningspijplijn_3': 'Pijplijn_Vergunning',
+            'TotaalInDePijplijn2Jaar_4': 'Pijplijn_Vast_2Jaar',
+            'BouwGestartPijplijn2Jaar_5': 'Pijplijn_BouwGestart_2Jaar',
+            'Vergunningspijplijn2Jaar_6': 'Pijplijn_Vergunning_2Jaar',
+            'TotaalInDePijplijn5Jaar_7': 'Pijplijn_Vast_5Jaar'
+        }
+        
+        df = df.rename(columns=column_mapping)
+        logger.info("  ✓ Renamed measure columns")
+        
+        # ────────────────────────────────────────────────────────────
+        # Step 5: Data quality validation
+        # ────────────────────────────────────────────────────────────
+        logger.info("Step 5/6: Data quality validation")
+        
+        # Check for null values
+        null_counts = df.isnull().sum()
+        total_cells = len(df) * len(df.columns)
+        total_nulls = null_counts.sum()
+        null_pct = (total_nulls / total_cells) * 100
+        
+        logger.info(f"  Null values: {total_nulls:,} ({null_pct:.2f}% of all cells)")
+        
+        if null_pct > DATA_QUALITY_RULES['max_null_percentage'] * 100:
+            logger.warning(f"  ⚠️  High null percentage: {null_pct:.2f}%")
+        
+        # Show columns with nulls
+        if total_nulls > 0:
+            logger.info("  Columns with null values:")
+            for col, count in null_counts[null_counts > 0].items():
+                pct = (count / len(df)) * 100
+                logger.info(f"    • {col}: {count} ({pct:.1f}%)")
+        
+        # Check year range
+        year_min, year_max = df['Jaar'].min(), df['Jaar'].max()
+        logger.info(f"  Year range: {year_min}-{year_max}")
+        
+        # ────────────────────────────────────────────────────────────
+        # Step 6: Create derived metrics (CRITICAL FOR ANALYSIS!)
+        # ────────────────────────────────────────────────────────────
+        logger.info("Step 6/6: Creating derived metrics")
+        
+        # Bottleneck ratio (percentage stuck >2 years)
+        df['Bottleneck_2Jaar_Pct'] = (
+            df['Pijplijn_Vast_2Jaar'] / df['Pijplijn_Totaal'] * 100
+        ).fillna(0)
+        logger.info("  ✓ Created Bottleneck_2Jaar_Pct (% stuck >2yr)")
+        
+        # Critical bottleneck ratio (percentage stuck >5 years)
+        df['Bottleneck_5Jaar_Pct'] = (
+            df['Pijplijn_Vast_5Jaar'] / df['Pijplijn_Totaal'] * 100
+        ).fillna(0)
+        logger.info("  ✓ Created Bottleneck_5Jaar_Pct (% stuck >5yr)")
+        
+        # Permit bottleneck ratio
+        df['Vergunning_Bottleneck_Pct'] = (
+            df['Pijplijn_Vergunning_2Jaar'] / df['Pijplijn_Vergunning'] * 100
+        ).fillna(0)
+        logger.info("  ✓ Created Vergunning_Bottleneck_Pct (permit phase bottleneck)")
+        
+        # Construction bottleneck ratio
+        df['Bouw_Bottleneck_Pct'] = (
+            df['Pijplijn_BouwGestart_2Jaar'] / df['Pijplijn_BouwGestart'] * 100
+        ).fillna(0)
+        logger.info("  ✓ Created Bouw_Bottleneck_Pct (construction phase bottleneck)")
+        
+        # Phase distribution (where are projects?)
+        df['Vergunning_Fase_Pct'] = (
+            df['Pijplijn_Vergunning'] / df['Pijplijn_Totaal'] * 100
+        ).fillna(0)
+        
+        df['Bouw_Fase_Pct'] = (
+            df['Pijplijn_BouwGestart'] / df['Pijplijn_Totaal'] * 100
+        ).fillna(0)
+        
+        logger.info("  ✓ Created phase distribution metrics")
+        
+        # Flag critical bottleneck regions (>20% stuck >2yr)
+        df['Crisis_Regio'] = (df['Bottleneck_2Jaar_Pct'] > 20).astype(int)
+        crisis_count = df['Crisis_Regio'].sum()
+        logger.info(f"  ✓ Flagged {crisis_count} rows as crisis regions (>20% stuck)")
+        
+        # ────────────────────────────────────────────────────────────
+        # Final Summary
+        # ────────────────────────────────────────────────────────────
+        logger.info("Transformation summary:")
+        logger.info(f"  Final shape: {df.shape[0]:,} rows × {df.shape[1]} columns")
+        logger.info(f"  Memory usage: {df.memory_usage(deep=True).sum() / 1024**2:.2f} MB")
+        logger.info(f"  Date range: {year_min}-{df['Maand'].min()} to {year_max}-{df['Maand'].max()}")
+        logger.info(f"  Unique regions: {df['Regio_Naam'].nunique()}")
+        
+        return df
+        
+        
+        
     
     def save_transformed_data(
         self,
@@ -424,7 +631,8 @@ def main():
             formats=['csv', 'parquet']
         )
         
-        print(f"\n✓ Transformation complete: {len(df_doorlooptijden):,} rows")
+        print(f"\n✓ Transformation complete (Dataset 1): {len(df_doorlooptijden):,} rows")
+
         
         # Show preview
         print("\n" + "="*70)
@@ -471,6 +679,26 @@ def main():
         print("  2. Run statistical analysis (python/analyze_statistics.py)")
         print("  3. Load to SQL database (python/load_to_sql.py)")
         print("="*70 + "\n")
+
+        # Dataset 2 transformation (woningen pijplijn)
+        print("\n🔄 " * 35)
+        print("TRANSFORMING WONINGEN PIJPLIJN")
+        print("🔄 " * 35 + "\n")
+        
+        df_pijplijn = transformer.transform_woningen_pijplijn(
+            START_YEAR,
+            END_YEAR
+        )
+        
+        transformer.save_transformed_data(
+            df_pijplijn,
+            'woningen_pijplijn',
+            formats=['csv', 'parquet']
+        )
+        
+        print(f"\n✓ Dataset 2 transformation complete (Woningen Pijplijn): {len(df_pijplijn):,} rows")
+
+
         
     except FileNotFoundError as e:
         logger.error(f"File not found: {str(e)}")
