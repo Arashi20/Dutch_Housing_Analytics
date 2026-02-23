@@ -139,12 +139,13 @@ Deze tabel bevat gegevens over woningen en niet-woningen in de pijplijn in Neder
 
 1. In de terminal: python python\extract_cbs_housing.py 
   - Je kunt de data range aanpassen om een kleinere dataset op te vragen
-  - Je krijgt in folder data\raw 5x2 files, 4 dimensietabellen (met bijbehorende parquet files) + 1 fact-tabel (met bijbehorende parquet file)
+  - Voor dataset 1 krijg je in folder data\raw 5x2 files, 4 dimensietabellen (met bijbehorende parquet files) + 1 fact-tabel (met bijbehorende parquet file)
+  - Voor dataset 2 krijg je in folder data\raw ...
   - Als je deze script nogmaals runt dan worden de vorige raw files vervangen door de nieuwe files (je hoeft niets handmatig te verwijderen)
 
 2. In de terminal: python python\transform_housing_data.py
   - Je moet ervoor zorgen dat de start_year en end_year precies overeenkomen met wat in de config.py file staat en in de extract_cbs file
-  - Nadat je de script runt krijg je een file 'doorlooptijden_latest.csv' die de meest actuele complete data bevat
+  - Nadat je de script runt krijg je een file 'doorlooptijden_latest.csv' die de meest actuele complete data bevat voor dataset 1. Voor dataset 2 ...
   - De andere files zijn timestamped data, deze kunnen van belang zijn als je meerdere iteraties runt met andere time ranges
 
 3. (Wordt vervolgd).
