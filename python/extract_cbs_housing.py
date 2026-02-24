@@ -16,7 +16,6 @@ Date: 2026-02-19
 Project: Dutch Housing Analytics - Rijksoverheid Portfolio
 """
 
-import calendar
 import pandas as pd
 from pathlib import Path
 from datetime import datetime
@@ -34,9 +33,6 @@ from cbs_api_client import CBSAPIClient, build_period_filter
 
 # Initialize logger
 logger = get_logger(__name__)
-
-# Number of monthly chunks per calendar year (one per month)
-CHUNKS_PER_YEAR = 12
 
 
 class HousingDataExtractor:
@@ -281,22 +277,26 @@ class HousingDataExtractor:
         save_formats: list = ['csv', 'parquet']
     ) -> Tuple[pd.DataFrame, Dict[str, pd.DataFrame]]:
         """
-        Extract Woningen Pijplijn dataset (82211NED) in monthly chunks.
+        Extract Woningen Pijplijn dataset (82211NED) in region-based chunks.
         
-        The CBS API hard limit of 10,000 rows per request prevents fetching
-        all data at once (475 regions × 3 functions × 187 months = 266k+ rows).
-        Even 3-month (quarterly) chunks (~4,275 rows) fail for historical data
-        due to CBS query complexity restrictions on this table. This method
-        therefore splits extraction into single-month chunks, each yielding
-        ~1,425 rows (85% safety margin below the 10k limit).
+        The CBS API rejects time-filtered queries for this table regardless of
+        chunk size (single-month queries of ~1,425 rows are also rejected with a
+        500 error citing query complexity). The root cause is that filtering by
+        time triggers an internal cross-product with all 475 gemeentes.
+        
+        This method therefore switches to region-based chunking: one chunk per
+        gemeente, fetching ALL time periods (2015-2025) for that gemeente at once.
+        Each chunk yields ~561 rows (1 gemeente × 3 functions × 187 months),
+        which is 94% below the 10,000-row limit and avoids the time-filter
+        complexity that causes CBS API rejections.
         
         Strategy:
-            Per chunk: 475 regions × 3 functions × 1 month = 1,425 rows ✓
-            For 2015-2025: 132 chunks (12 per year × 11 years)
+            Per chunk: 1 gemeente × 3 functions × 187 months = 561 rows ✓
+            Total: 475 chunks (one per gemeente)
         
         Args:
-            start_year: Start year for data extraction
-            end_year: End year for data extraction
+            start_year: Start year (used for output filename and logging)
+            end_year: End year (used for output filename and logging)
             save_formats: List of formats to save ('csv', 'parquet')
             
         Returns:
@@ -307,7 +307,7 @@ class HousingDataExtractor:
         logger.info("="*60)
         logger.info(f"EXTRACTING WONINGEN PIJPLIJN CHUNKED ({table_id})")
         logger.info(f"Period: {start_year}-{end_year}")
-        logger.info("Strategy: Monthly chunks (smallest granularity) to guarantee CBS API success")
+        logger.info("Strategy: Region-based chunks (gemeentes, not time periods)")
         logger.info("="*60)
         
         # ────────────────────────────────────────────────────────────
@@ -324,57 +324,48 @@ class HousingDataExtractor:
             self._save_dataframe(dim_df, dim_filename, save_formats)
         
         # ────────────────────────────────────────────────────────────
-        # Step 2: Extract fact data in monthly chunks
+        # Step 2: Extract fact data in region-based chunks
         # ────────────────────────────────────────────────────────────
-        logger.info("Step 2/3: Extracting fact data (monthly chunks)")
+        logger.info("Step 2/3: Extracting fact data (region-based chunks)")
+        logger.info("Loading RegioS dimension for region-based chunking")
+        
+        regios_df = dimensions['RegioS']
+        regios_list = regios_df['Key'].tolist()
+        total_chunks = len(regios_list)
+        
+        logger.info(f"Found {total_chunks} gemeentes to extract")
+        logger.info("Strategy: Extract ALL time periods (2015-2025) per gemeente")
         
         measure_cols = PIJPLIJN_CONFIG['measure_columns']
         dimension_cols = ['ID', 'Gebruiksfunctie', 'RegioS', 'Perioden']
         select_cols = dimension_cols + measure_cols
         
-        total_chunks = (end_year - start_year + 1) * CHUNKS_PER_YEAR
-        chunk_num = 0
         all_chunks = []
         
-        for year in range(start_year, end_year + 1):
-            for month in range(1, 13):
-                chunk_num += 1
+        for idx, regio_code in enumerate(regios_list, 1):
+            # Filter by REGION only (no time filter)
+            region_filter = f"RegioS eq '{regio_code}'"
+            
+            try:
+                regio_name = regios_df[regios_df['Key'] == regio_code]['Title'].values[0]
+                logger.info(f"  Chunk {idx}/{total_chunks}: {regio_code} ({regio_name})")
                 
-                period = f"{year}MM{month:02d}"
-                month_name = calendar.month_name[month]
-                chunk_label = f"{year}-{month:02d} ({month_name})"
-                
-                logger.info(
-                    f"  Chunk {chunk_num}/{total_chunks}: "
-                    f"{chunk_label}"
+                chunk_data = self.client.get_data_paginated(
+                    table_id=table_id,
+                    filters=[region_filter],
+                    select=select_cols
                 )
                 
-                period_filter = (
-                    f"Perioden ge '{period}' "
-                    f"and Perioden le '{period}'"
-                )
-                
-                try:
-                    chunk_data = self.client.get_data_paginated(
-                        table_id=table_id,
-                        filters=[period_filter],
-                        select=select_cols
-                    )
+                if not chunk_data.empty:
+                    all_chunks.append(chunk_data)
+                    logger.info(f"    ✓ Fetched {len(chunk_data):,} rows")
+                else:
+                    logger.info(f"    • No data for {regio_code}")
                     
-                    if not chunk_data.empty:
-                        all_chunks.append(chunk_data)
-                        logger.info(
-                            f"    ✓ Fetched {len(chunk_data):,} rows"
-                        )
-                    else:
-                        logger.info(f"    • No data for this period")
-                        
-                except Exception as e:
-                    logger.exception(
-                        f"Failed to fetch chunk {chunk_label}: {str(e)}"
-                    )
-                    logger.warning(f"Skipping chunk {chunk_label}")
-                    continue
+            except Exception as e:
+                logger.error(f"    ✗ Failed to fetch {regio_code}: {str(e)}")
+                logger.warning(f"    Skipping gemeente {regio_code}")
+                continue
         
         # ────────────────────────────────────────────────────────────
         # Step 3: Combine all chunks
@@ -639,7 +630,7 @@ def main():
             
             # Extract Dataset 2 later (after Dataset 1 is verified)
             print("\n" + "🏢 " * 35)
-            print("DATASET 2: WONINGEN PIJPLIJN (CHUNKED - MONTHLY)")
+            print("DATASET 2: WONINGEN PIJPLIJN (CHUNKED - BY REGION)")
             print("🏢 " * 35 + "\n")
              
             facts_2, dims_2 = extractor.extract_woningen_pijplijn_chunked(
