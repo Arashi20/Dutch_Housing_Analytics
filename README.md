@@ -137,15 +137,28 @@ Deze tabel bevat gegevens over woningen en niet-woningen in de pijplijn in Neder
 
 ## How to Run
 
-1. In de terminal: python python\extract_cbs_housing.py 
+**Voorbereiding: Dataset 2 bulk download (eenmalig)**
+
+Dataset 2 (82211NED - Woningen Pijplijn) bevat ~266k rijen, wat de CBS API limiet van 10k overschrijdt. Download de gefilterde CSV handmatig:
+
+1. Ga naar: https://opendata.cbs.nl/statline/#/CBS/nl/dataset/82211NED/table
+2. Filter: Gebruiksfunctie = **"Woning totaal"** (dit beperkt de data tot ~88.825 rijen)
+3. Download als CSV (puntkomma-gescheiden)
+4. Sla op als: `data/raw/82211NED_bulk_download.csv`
+
+**Extractie**
+
+1. In de terminal: `python python\extract_cbs_housing.py`
   - Je kunt de data range aanpassen om een kleinere dataset op te vragen
-  - Voor dataset 1 krijg je in folder data\raw 5x2 files, 4 dimensietabellen (met bijbehorende parquet files) + 1 fact-tabel (met bijbehorende parquet file)
-  - Voor dataset 2 krijg je in folder data\raw ...
+  - Voor dataset 1 krijg je in folder `data\raw` 5x2 files: 4 dimensietabellen (met bijbehorende parquet files) + 1 fact-tabel (met bijbehorende parquet file)
+  - Voor dataset 2 leest het script de bulk download CSV en haalt de kleine dimensietabellen op via de API. Je krijgt dimensiefiles + 1 fact-tabel (met bijbehorende parquet file)
   - Als je deze script nogmaals runt dan worden de vorige raw files vervangen door de nieuwe files (je hoeft niets handmatig te verwijderen)
 
-2. In de terminal: python python\transform_housing_data.py
+**Transformatie**
+
+2. In de terminal: `python python\transform_housing_data.py`
   - Je moet ervoor zorgen dat de start_year en end_year precies overeenkomen met wat in de config.py file staat en in de extract_cbs file
-  - Nadat je de script runt krijg je een file 'doorlooptijden_latest.csv' die de meest actuele complete data bevat voor dataset 1. Voor dataset 2 ...
+  - Nadat je de script runt krijg je een file `doorlooptijden_latest.csv` die de meest actuele complete data bevat voor dataset 1, en `woningen_pijplijn_latest.csv` voor dataset 2
   - De andere files zijn timestamped data, deze kunnen van belang zijn als je meerdere iteraties runt met andere time ranges
 
 3. (Wordt vervolgd).

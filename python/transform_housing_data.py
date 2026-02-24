@@ -27,6 +27,7 @@ from config import (
     RAW_DATA_DIR,
     PROCESSED_DATA_DIR,
     DATA_QUALITY_RULES,
+    PIJPLIJN_BULK_CONFIG,
     get_logger
 )
 
@@ -367,16 +368,47 @@ class HousingDataTransformer:
         # Step 1: Load raw fact data
         # ────────────────────────────────────────────────────────────
         logger.info("Step 1/6: Loading raw fact data")
-        
+
         pattern = f"fact_woningen_pijplijn_{start_year}_{end_year}_*.csv"
         fact_file = self.find_latest_file(pattern)
-        
+
         if not fact_file:
-            raise FileNotFoundError(f"Fact file not found: {pattern}")
-        
-        df = pd.read_csv(fact_file)
+            # Fallback: load directly from bulk download CSV
+            bulk_csv = RAW_DATA_DIR / PIJPLIJN_BULK_CONFIG['csv_filename']
+            if bulk_csv.exists():
+                logger.info(
+                    f"  Standard fact file not found; loading bulk CSV: "
+                    f"{bulk_csv.name}"
+                )
+                df = pd.read_csv(
+                    bulk_csv,
+                    sep=PIJPLIJN_BULK_CONFIG['separator'],
+                    encoding=PIJPLIJN_BULK_CONFIG['encoding']
+                )
+                # Strip trailing whitespace (CBS export characteristic)
+                for col in PIJPLIJN_BULK_CONFIG['string_columns']:
+                    if col in df.columns:
+                        df[col] = df[col].str.strip()
+                # Filter to requested year range
+                null_perioden = df['Perioden'].isnull().sum() if 'Perioden' in df.columns else 0
+                if null_perioden > 0:
+                    logger.warning(f"  Dropping {null_perioden} rows with null Perioden")
+                    df = df.dropna(subset=['Perioden'])
+                year_col = df['Perioden'].str[:4].astype(int)
+                mask = (year_col >= start_year) & (year_col <= end_year)
+                df = df[mask].reset_index(drop=True)
+            else:
+                raise FileNotFoundError(
+                    f"Fact file not found: {pattern}\n"
+                    f"Bulk CSV also not found: {bulk_csv}\n"
+                    f"Run extract_cbs_housing.py first, or place the CBS bulk\n"
+                    f"download at: {bulk_csv}"
+                )
+        else:
+            df = pd.read_csv(fact_file)
+
         logger.info(f"  Loaded {len(df):,} rows, {len(df.columns)} columns")
-        
+
         # ────────────────────────────────────────────────────────────
         # Step 2: Load dimension tables
         # ────────────────────────────────────────────────────────────

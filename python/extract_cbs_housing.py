@@ -26,6 +26,7 @@ from config import (
     CBS_TABLES,
     DOORLOOPTIJD_CONFIG,
     PIJPLIJN_CONFIG,
+    PIJPLIJN_BULK_CONFIG,
     RAW_DATA_DIR,
     get_logger
 )
@@ -418,6 +419,137 @@ class HousingDataExtractor:
         return fact_data, dimensions
     
     
+    def load_woningen_pijplijn_bulk(
+        self,
+        start_year: int,
+        end_year: int,
+        save_formats: list = ['csv', 'parquet']
+    ) -> Tuple[pd.DataFrame, Dict[str, pd.DataFrame]]:
+        """
+        Load Woningen Pijplijn from user-downloaded bulk CSV.
+
+        The CBS API hard limit of 10k rows prevents full extraction for
+        82211NED (475 regions × 3 functions × 187 months ≈ 266k rows).
+        This method loads the pre-downloaded bulk CSV and fetches the
+        small dimension tables via API.
+
+        Before running, download the filtered CSV from CBS StatLine:
+          1. Go to: https://opendata.cbs.nl/statline/#/CBS/nl/dataset/82211NED/table
+          2. Filter: Gebruiksfunctie = "Woning totaal"
+          3. Download as CSV (semicolon-separated)
+          4. Save as: data/raw/82211NED_bulk_download.csv
+
+        Args:
+            start_year: Start year for data filtering
+            end_year: End year for data filtering
+            save_formats: List of formats to save ('csv', 'parquet')
+
+        Returns:
+            Tuple of (fact_data, dimensions_dict)
+        """
+        table_id = PIJPLIJN_BULK_CONFIG['table_id']
+
+        logger.info("="*60)
+        logger.info(f"LOADING WONINGEN PIJPLIJN FROM BULK CSV ({table_id})")
+        logger.info(f"Period: {start_year}-{end_year}")
+        logger.info("="*60)
+
+        # ────────────────────────────────────────────────────────────
+        # Step 1: Fetch dimension tables via API (small, works fine)
+        # ────────────────────────────────────────────────────────────
+        logger.info("Step 1/3: Fetching dimension tables via API")
+
+        dimensions = self.client.get_all_dimensions(table_id)
+
+        for dim_name, dim_df in dimensions.items():
+            logger.info(f"  ✓ Loaded {dim_name}: {len(dim_df)} rows")
+
+            dim_filename = f"dim_{dim_name.lower()}_{table_id}_{self.timestamp}"
+            self._save_dataframe(dim_df, dim_filename, save_formats)
+
+        # ────────────────────────────────────────────────────────────
+        # Step 2: Load bulk CSV
+        # ────────────────────────────────────────────────────────────
+        logger.info("Step 2/3: Loading bulk CSV")
+
+        csv_path = RAW_DATA_DIR / PIJPLIJN_BULK_CONFIG['csv_filename']
+
+        if not csv_path.exists():
+            raise FileNotFoundError(
+                f"Bulk download CSV not found: {csv_path}\n"
+                f"Please download from CBS StatLine:\n"
+                f"  1. Go to: https://opendata.cbs.nl/statline/#/CBS/nl/dataset/82211NED/table\n"
+                f"  2. Filter: Gebruiksfunctie = 'Woning totaal'\n"
+                f"  3. Download as CSV (semicolon-separated)\n"
+                f"  4. Save as: {csv_path}"
+            )
+
+        fact_data = pd.read_csv(
+            csv_path,
+            sep=PIJPLIJN_BULK_CONFIG['separator'],
+            encoding=PIJPLIJN_BULK_CONFIG['encoding']
+        )
+
+        # Strip trailing whitespace from string columns (CBS export characteristic)
+        for col in PIJPLIJN_BULK_CONFIG['string_columns']:
+            if col in fact_data.columns:
+                fact_data[col] = fact_data[col].str.strip()
+
+        logger.info(f"  Loaded {len(fact_data):,} rows from bulk CSV")
+
+        # Filter to requested year range
+        # Perioden format: '2015MM01' → year is first 4 characters
+        if 'Perioden' not in fact_data.columns:
+            raise ValueError(
+                "Column 'Perioden' not found in bulk CSV. "
+                "Verify the file is a valid CBS 82211NED export."
+            )
+        null_perioden = fact_data['Perioden'].isnull().sum()
+        if null_perioden > 0:
+            logger.warning(f"  Dropping {null_perioden} rows with null Perioden")
+            fact_data = fact_data.dropna(subset=['Perioden'])
+        year_col = fact_data['Perioden'].str[:4].astype(int)
+        mask = (year_col >= start_year) & (year_col <= end_year)
+        fact_data = fact_data[mask].reset_index(drop=True)
+
+        logger.info(
+            f"  After year filter ({start_year}-{end_year}): "
+            f"{len(fact_data):,} rows"
+        )
+
+        # Data quality summary
+        logger.info("Data quality summary:")
+        logger.info(f"  • Total rows: {len(fact_data):,}")
+        logger.info(f"  • Total columns: {len(fact_data.columns)}")
+        logger.info(
+            f"  • Memory usage: "
+            f"{fact_data.memory_usage(deep=True).sum() / 1024**2:.2f} MB"
+        )
+
+        null_counts = fact_data.isnull().sum()
+        if null_counts.sum() > 0:
+            logger.warning("Null values detected:")
+            for col, count in null_counts[null_counts > 0].items():
+                pct = (count / len(fact_data)) * 100
+                logger.warning(f"  • {col}: {count} ({pct:.1f}%)")
+
+        # ────────────────────────────────────────────────────────────
+        # Step 3: Save fact data
+        # ────────────────────────────────────────────────────────────
+        logger.info("Step 3/3: Saving fact data")
+
+        fact_filename = (
+            f"fact_woningen_pijplijn_{start_year}_{end_year}_"
+            f"{table_id}_{self.timestamp}"
+        )
+
+        self._save_dataframe(fact_data, fact_filename, save_formats)
+
+        logger.info("✓ Woningen Pijplijn (bulk) loading complete!")
+
+        return fact_data, dimensions
+
+
     def _save_dataframe(
         self,
         df: pd.DataFrame,
@@ -639,16 +771,16 @@ def main():
             
             # Extract Dataset 2 later (after Dataset 1 is verified)
             print("\n" + "🏢 " * 35)
-            print("DATASET 2: WONINGEN PIJPLIJN (CHUNKED - MONTHLY)")
+            print("DATASET 2: WONINGEN PIJPLIJN (BULK CSV)")
             print("🏢 " * 35 + "\n")
              
-            facts_2, dims_2 = extractor.extract_woningen_pijplijn_chunked(
+            facts_2, dims_2 = extractor.load_woningen_pijplijn_bulk(
                 START_YEAR,
                 END_YEAR,
                 save_formats=['csv', 'parquet']
             )
              
-            print(f"\n✓ Dataset 2 complete: {len(facts_2):,} rows extracted")
+            print(f"\n✓ Dataset 2 complete: {len(facts_2):,} rows loaded")
 
         print("\n" + "🧹 " * 35)
         cleanup_old_extractions(keep_last_n=1)
