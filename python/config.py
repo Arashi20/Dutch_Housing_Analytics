@@ -56,6 +56,13 @@ CBS_API_BASE_URL = os.getenv(
     'https://opendata.cbs.nl/ODataApi/odata' 
 )
 
+# CBS Feed API - for bulk downloads (unlimited cells)
+# See: https://opendata.cbs.nl/ODataFeed/odata/82211NED
+CBS_FEED_API_BASE_URL = os.getenv(
+    'CBS_FEED_API_BASE_URL',
+    'https://opendata.cbs.nl/ODataFeed/odata'
+)
+
 # Table IDs from README.md
 CBS_TABLES = {
     'doorlooptijden': '86260NED',      # Doorlooptijden nieuwbouw

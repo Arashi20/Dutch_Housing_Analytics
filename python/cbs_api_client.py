@@ -19,6 +19,7 @@ from urllib.parse import urljoin
 
 from config import (
     CBS_API_BASE_URL,
+    CBS_FEED_API_BASE_URL,
     ODATA_CONFIG,
     get_logger
 )
@@ -31,6 +32,10 @@ class CBSAPIClient:
     """
     Client for CBS StatLine OData API.
     
+    Supports two API types:
+    - 'standard': Standard API with 10k cell limit (for small queries)
+    - 'feed': Feed API with unlimited cells (for bulk downloads)
+    
     Pattern: Similar to base API clients in stock-research-MAS
     Features:
     - Automatic retry with exponential backoff
@@ -42,11 +47,15 @@ class CBSAPIClient:
     Usage:
         client = CBSAPIClient()
         data = client.get_data('86260NED', filters=["Perioden eq '2023KW01'"])
+        
+        # For large datasets (e.g., 82211NED):
+        feed_client = CBSAPIClient(api_type='feed')
     """
     
     def __init__(
         self,
-        base_url: str = CBS_API_BASE_URL,
+        api_type: str = 'standard',
+        base_url: str = None,
         timeout: int = ODATA_CONFIG['timeout'],
         max_retries: int = ODATA_CONFIG['max_retries'],
         batch_size: int = ODATA_CONFIG['batch_size']
@@ -55,12 +64,25 @@ class CBSAPIClient:
         Initialize CBS API client.
         
         Args:
-            base_url: Base URL for CBS OData API
+            api_type: 'standard' (10k cell limit) or 'feed' (unlimited cells).
+                     Default: 'standard' for backward compatibility.
+            base_url: Override base URL (optional). If provided, takes precedence
+                     over api_type URL selection.
             timeout: Request timeout in seconds
             max_retries: Maximum number of retry attempts
             batch_size: Number of records per page (pagination)
         """
-        self.base_url = base_url
+        if base_url is not None:
+            self.base_url = base_url
+        elif api_type == 'feed':
+            self.base_url = CBS_FEED_API_BASE_URL
+            logger.info("Using CBS Feed API (unlimited cells - for bulk downloads)")
+        elif api_type == 'standard':
+            self.base_url = CBS_API_BASE_URL
+            logger.info("Using CBS Standard API (10k cell limit)")
+        else:
+            raise ValueError(f"Invalid api_type: {api_type}. Must be 'standard' or 'feed'")
+        
         self.timeout = timeout
         self.max_retries = max_retries
         self.batch_size = batch_size
@@ -72,7 +94,7 @@ class CBSAPIClient:
             'User-Agent': 'Dutch-Housing-Analytics/1.0 (github.com/Arashi20)'
         })
         
-        logger.info(f"CBS API Client initialized: {base_url}")
+        logger.info(f"CBS API Client initialized: {self.base_url}")
     
     
     def _make_request(
