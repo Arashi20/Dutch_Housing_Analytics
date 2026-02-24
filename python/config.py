@@ -215,6 +215,38 @@ PIJPLIJN_CONFIG = {
     }
 }
 
+
+# ────────────────────────────────────────────────────────────
+# Dataset 2: Bulk Download Configuration (82211NED)
+# ────────────────────────────────────────────────────────────
+# CBS API hard limit of 10k rows prevents full extraction for 82211NED
+# (475 regions × 3 functions × 187 months ≈ 266k rows).
+#
+# Solution: User downloads filtered CSV from CBS StatLine website:
+#   URL: https://opendata.cbs.nl/statline/#/CBS/nl/dataset/82211NED/table
+#   Filter: Gebruiksfunctie = "Woning totaal" (reduces to ~88,825 rows)
+#   Save as: data/raw/82211NED_bulk_download.csv
+#
+# CBS bulk download characteristics:
+#   - Semicolon (;) separated values
+#   - String fields may have trailing whitespace
+#   - Column names match the OData API column names
+
+PIJPLIJN_BULK_CONFIG = {
+    'table_id': '82211NED',
+
+    # Filename of the user-downloaded bulk CSV (place in data/raw/)
+    'csv_filename': '82211NED_bulk_download.csv',
+
+    # CSV format settings (CBS export format)
+    'separator': ';',
+    'encoding': 'utf-8',
+
+    # String columns that may contain trailing whitespace in CBS export
+    'string_columns': ['Gebruiksfunctie', 'RegioS', 'Perioden'],
+}
+
+
 # ============================================================
 # DATABASE CONFIGURATION
 # ============================================================
