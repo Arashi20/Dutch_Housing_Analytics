@@ -101,10 +101,6 @@ Deze tabel bevat gegevens over woningen en niet-woningen in de pijplijn in Neder
 **Totaal aantal cellen:** 2.398.275 (groot!)  
 **Geverifieerd:** 2026-02-18 via CBS OData API test
 
-### Bevolking per gemeente
-
-(Additionele dataset die ik nog moet vinden). 
-
 
 ## Tech stack (Voorlopig)
 - SQL
@@ -161,7 +157,8 @@ Dataset 2 (82211NED - Woningen Pijplijn) bevat ~266k rijen, wat de CBS API limie
   - Nadat je de script runt krijg je een file `doorlooptijden_latest.csv` die de meest actuele complete data bevat voor dataset 1, en `woningen_pijplijn_latest.csv` voor dataset 2
   - De andere files zijn timestamped data, deze kunnen van belang zijn als je meerdere iteraties runt met andere time ranges
 
-3. (Wordt vervolgd).
+**Statistische Anlyses**
+3. 
 
 
 ## Verwijzingen

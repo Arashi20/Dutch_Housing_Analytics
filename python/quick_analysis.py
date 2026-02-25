@@ -392,6 +392,7 @@ def plot_bottleneck_by_region(df: pd.DataFrame):
     print("="*60 + "\n")
 
 
+# Doesn't currently work
 def plot_permit_vs_construction_bottleneck(df: pd.DataFrame):
     """
     Compare permit vs construction bottlenecks.
@@ -491,7 +492,7 @@ def main():
         plot_regional_comparison(df_doorlooptijden)
         plot_housing_type_comparison(df_doorlooptijden)
         
-        # Load Dataset 2 - ADD THIS!
+        # Load Dataset 2 
         pijplijn_file = PROCESSED_DATA_DIR / 'woningen_pijplijn_latest.csv'
         
         if pijplijn_file.exists():
@@ -499,7 +500,7 @@ def main():
             df_pijplijn = pd.read_csv(pijplijn_file)
             
             plot_bottleneck_by_region(df_pijplijn)
-            plot_permit_vs_construction_bottleneck(df_pijplijn)
+            # plot_permit_vs_construction_bottleneck(df_pijplijn); Doesn't work for now.
         else:
             print("\n⚠️  Dataset 2 not found. Run extraction + transformation first.")
         
