@@ -204,6 +204,20 @@ Dataset 2 (82211NED - Woningen Pijplijn) bevat ~266k rijen, wat de CBS API limie
   - Logs worden opgeslagen in `logs/statistics.log`
   - Resultaten zijn klaar voor import in Power BI (Fase 3)
 
+  **SQL Database Setup**
+
+4. In de terminal: `python python\load_to_sql.py`
+  - Laadt alle processed CSVs en dimension tables in SQLite database
+  - Creëert star schema met fact tables en dimension tables
+  - Voegt performance indexes toe
+  - Output: `data/housing_analytics.db` (SQLite database, ~10 MB)
+  - Database bevat:
+    - `fact_doorlooptijden` (9,234 rows)
+    - `fact_woningen_pijplijn` (88,825 rows)
+    - 5 dimension tables (regiokenmerken, regios, gebruiksfunctie, woningtype, perioden)
+  - Logs worden opgeslagen in `logs/load_sql.log`
+
+
 
 ## Verwijzingen
 
