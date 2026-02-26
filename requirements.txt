@@ -6,4 +6,8 @@ sqlalchemy
 pyodbc
 pyarrow
 matplotlib
-seaborn 
+seaborn
+numpy
+scipy
+scikit-learn
+statsmodels 
