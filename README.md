@@ -217,6 +217,10 @@ Dataset 2 (82211NED - Woningen Pijplijn) bevat ~266k rijen, wat de CBS API limie
     - 5 dimension tables (regiokenmerken, regios, gebruiksfunctie, woningtype, perioden)
   - Logs worden opgeslagen in `logs/load_sql.log`
 
+**SQL Query Examples**
+
+5. Voor SQL practice en analyse voorbeelden, zie: [`sql/sample_queries.sql`](sql/sample_queries.sql)
+
 
 
 ## Verwijzingen

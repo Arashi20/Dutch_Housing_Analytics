@@ -24,6 +24,7 @@ data/raw/*.parquet
 data/raw/*.json
 data/processed/*.csv
 data/processed/*.parquet
+data/housing_analytics.db
 
 # But keep directories (Windows equivalent)
 !data/raw/.gitkeep
