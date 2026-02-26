@@ -42,37 +42,37 @@ Deze vraag is relevant voor beleidsmakers omdat het:
 
 ### Methodologie
 
-TEMPORAL TREND ANALYSIS (Deelvraag 1)
-   ├─ Linear regression: Doorlooptijd over tijd (2015-2025)
-   ├─ Question: Is het erger geworden sinds 2015?
-   └─ Output: results/1_temporal_regression.csv
+1. TEMPORAL TREND ANALYSIS (Deelvraag 1)
+  - Linear regression: Doorlooptijd over tijd (2015-2025)
+  - Vraag: Is het erger geworden sinds 2015?
+  - Output: results/1_temporal_regression.csv
 
 2. REGIONAL DIFFERENCES - ANOVA (Deelvraag 2)
-   ├─ One-way ANOVA: Doorlooptijd per provincie
-   ├─ Post-hoc Tukey HSD: Welke provincies verschillen?
-   └─ Output: results/2_regional_anova.csv + posthoc.csv
+  - One-way ANOVA: Doorlooptijd per provincie
+  - Post-hoc Tukey HSD: Welke provincies verschillen?
+  - Output: results/2_regional_anova.csv + posthoc.csv
 
 3. BOTTLENECK QUANTIFICATION (Deelvraag 3)
-   ├─ Descriptive stats: % projecten >2 jaar, >5 jaar vast
-   ├─ Fase breakdown: Vergunning vs Bouw bottlenecks
-   ├─ Top 10 crisis gemeentes ranking
-   └─ Output: results/3_bottleneck_summary.csv + top10.csv
+  - Descriptive stats: % projecten >2 jaar, >5 jaar vast
+  - Fase breakdown: Vergunning vs Bouw bottlenecks
+  - Top 10 crisis gemeentes ranking
+  - Output: results/3_bottleneck_summary.csv + top10.csv
 
 4. WONINGTYPE COMPARISON - T-TEST (Deelvraag 4)
-   ├─ Independent samples t-test: Eengezins vs Meergezins
-   ├─ Question: Significant verschil in doorlooptijd?
-   └─ Output: results/4_woningtype_ttest.csv
+  - Independent samples t-test: Eengezins vs Meergezins
+  - Vraag: Significant verschil in doorlooptijd?
+  - Output: results/4_woningtype_ttest.csv
 
 5. CORRELATION ANALYSIS
-   ├─ Pearson correlation: Bottleneck % vs Doorlooptijd
-   ├─ Correlation matrix: Alle key variables
-   └─ Output: results/5_correlation_matrix.csv
+  - Pearson correlation: Bottleneck % vs Doorlooptijd
+  - Correlation matrix: Alle key variables
+  - Output: results/5_correlation_matrix.csv
 
 6. TEMPORAL PATTERNS - SEASONAL DECOMPOSITION (Deelvraag 5)
-   ├─ Time series decomposition: Trend + Seasonal + Residual
-   ├─ Dataset 1: Kwartaal seizoenseffecten
-   ├─ Dataset 2: Maandelijkse patronen
-   └─ Output: results/6_seasonal_decomposition_*.csv
+  - Time series decomposition: Trend + Seasonal + Residual
+  - Dataset 1: Kwartaal seizoenseffecten
+  - Dataset 2: Maandelijkse patronen
+  - Output: results/6_seasonal_decomposition_*.csv
 
 ## Datasets
 
