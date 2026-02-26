@@ -1,0 +1,2 @@
+woningtype_1,woningtype_2,mean_1,mean_2,mean_diff,t_statistic,p_value,significant,cohens_d,interpretation
+Eengezinswoning,Meergezinswoning,16.6086,22.7641,-6.1555,-36.3088,<1e-16,True,-1.1752,Meergezins significant langer (large effect size)

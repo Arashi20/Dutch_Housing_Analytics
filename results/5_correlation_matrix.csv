@@ -1,0 +1,3 @@
+variable_1,variable_2,correlation,p_value,n_samples,significant,strength,interpretation
+Bottleneck_2Jaar_Pct,Vergunning_Fase_Pct,0.3463,<1e-16,88825,True,Weak,Bottlenecks vooral in vergunningsfase
+Bottleneck_2Jaar_Pct,Bouw_Fase_Pct,0.0887,<1e-16,88825,True,Weak,Relatie tussen bottlenecks en bouwfase

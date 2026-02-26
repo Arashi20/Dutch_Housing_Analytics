@@ -1,0 +1,117 @@
+group1,group2,mean_diff,p_adj,lower,upper,significant,interpretation
+Drenthe (PV),Flevoland (PV),1.7548,0.0004,0.4411,3.0685,True,Drenthe (PV) 1.8 maanden langer
+Drenthe (PV),Groningen (PV),2.0275,0.0,0.7139,3.3412,True,Drenthe (PV) 2.0 maanden langer
+Drenthe (PV),Limburg (PV),2.9147,0.0,1.601,4.2284,True,Drenthe (PV) 2.9 maanden langer
+Drenthe (PV),Matig stedelijk,1.3965,0.0235,0.0828,2.7102,True,Drenthe (PV) 1.4 maanden langer
+Drenthe (PV),Nederland,3.2385,0.0,1.9248,4.5522,True,Drenthe (PV) 3.2 maanden langer
+Drenthe (PV),Noord-Brabant (PV),2.6235,0.0,1.3098,3.9372,True,Drenthe (PV) 2.6 maanden langer
+Drenthe (PV),Noord-Holland (PV),7.7353,0.0,6.4216,9.049,True,Drenthe (PV) 7.7 maanden langer
+Drenthe (PV),Sterk stedelijk,2.6992,0.0,1.3855,4.0129,True,Drenthe (PV) 2.7 maanden langer
+Drenthe (PV),Utrecht (PV),4.4674,0.0,3.1537,5.7811,True,Drenthe (PV) 4.5 maanden langer
+Drenthe (PV),Zeeland (PV),2.6612,0.0,1.3475,3.9749,True,Drenthe (PV) 2.7 maanden langer
+Drenthe (PV),Zeer sterk stedelijk,7.9035,0.0,6.5898,9.2172,True,Drenthe (PV) 7.9 maanden langer
+Drenthe (PV),Zuid-Holland (PV),4.673,0.0,3.3593,5.9867,True,Drenthe (PV) 4.7 maanden langer
+Flevoland (PV),Fryslân (PV),-2.0318,0.0,-3.3455,-0.7181,True,Fryslân (PV) 2.0 maanden langer
+Flevoland (PV),Nederland,1.4837,0.0098,0.17,2.7974,True,Flevoland (PV) 1.5 maanden langer
+Flevoland (PV),Niet stedelijk,-1.4273,0.0174,-2.741,-0.1136,True,Niet stedelijk 1.4 maanden langer
+Flevoland (PV),Noord-Holland (PV),5.9805,0.0,4.6668,7.2942,True,Flevoland (PV) 6.0 maanden langer
+Flevoland (PV),Overijssel (PV),-2.566,0.0,-3.8797,-1.2524,True,Overijssel (PV) 2.6 maanden langer
+Flevoland (PV),Utrecht (PV),2.7126,0.0,1.3989,4.0263,True,Flevoland (PV) 2.7 maanden langer
+Flevoland (PV),Zeer sterk stedelijk,6.1487,0.0,4.835,7.4623,True,Flevoland (PV) 6.1 maanden langer
+Flevoland (PV),Zuid-Holland (PV),2.9182,0.0,1.6045,4.2319,True,Flevoland (PV) 2.9 maanden langer
+Fryslân (PV),Groningen (PV),2.3045,0.0,0.9909,3.6182,True,Fryslân (PV) 2.3 maanden langer
+Fryslân (PV),Limburg (PV),3.1917,0.0,1.878,4.5054,True,Fryslân (PV) 3.2 maanden langer
+Fryslân (PV),Matig stedelijk,1.6735,0.0012,0.3598,2.9872,True,Fryslân (PV) 1.7 maanden langer
+Fryslân (PV),Nederland,3.5155,0.0,2.2018,4.8292,True,Fryslân (PV) 3.5 maanden langer
+Fryslân (PV),Noord-Brabant (PV),2.9005,0.0,1.5868,4.2142,True,Fryslân (PV) 2.9 maanden langer
+Fryslân (PV),Noord-Holland (PV),8.0123,0.0,6.6986,9.326,True,Fryslân (PV) 8.0 maanden langer
+Fryslân (PV),Sterk stedelijk,2.9762,0.0,1.6625,4.2899,True,Fryslân (PV) 3.0 maanden langer
+Fryslân (PV),Utrecht (PV),4.7444,0.0,3.4307,6.0581,True,Fryslân (PV) 4.7 maanden langer
+Fryslân (PV),Zeeland (PV),2.9382,0.0,1.6246,4.2519,True,Fryslân (PV) 2.9 maanden langer
+Fryslân (PV),Zeer sterk stedelijk,8.1805,0.0,6.8668,9.4942,True,Fryslân (PV) 8.2 maanden langer
+Fryslân (PV),Zuid-Holland (PV),4.95,0.0,3.6363,6.2637,True,Fryslân (PV) 5.0 maanden langer
+Gelderland (PV),Groningen (PV),1.4955,0.0087,0.1818,2.8091,True,Gelderland (PV) 1.5 maanden langer
+Gelderland (PV),Limburg (PV),2.3826,0.0,1.0689,3.6963,True,Gelderland (PV) 2.4 maanden langer
+Gelderland (PV),Nederland,2.7064,0.0,1.3927,4.0201,True,Gelderland (PV) 2.7 maanden langer
+Gelderland (PV),Noord-Brabant (PV),2.0914,0.0,0.7778,3.4051,True,Gelderland (PV) 2.1 maanden langer
+Gelderland (PV),Noord-Holland (PV),7.2032,0.0,5.8895,8.5169,True,Gelderland (PV) 7.2 maanden langer
+Gelderland (PV),Overijssel (PV),-1.3433,0.0385,-2.657,-0.0296,True,Overijssel (PV) 1.3 maanden langer
+Gelderland (PV),Sterk stedelijk,2.1671,0.0,0.8534,3.4808,True,Gelderland (PV) 2.2 maanden langer
+Gelderland (PV),Utrecht (PV),3.9353,0.0,2.6216,5.249,True,Gelderland (PV) 3.9 maanden langer
+Gelderland (PV),Zeeland (PV),2.1291,0.0,0.8155,3.4428,True,Gelderland (PV) 2.1 maanden langer
+Gelderland (PV),Zeer sterk stedelijk,7.3714,0.0,6.0577,8.6851,True,Gelderland (PV) 7.4 maanden langer
+Gelderland (PV),Zuid-Holland (PV),4.1409,0.0,2.8272,5.4546,True,Gelderland (PV) 4.1 maanden langer
+Groningen (PV),Niet stedelijk,-1.7,0.0008,-3.0137,-0.3863,True,Niet stedelijk 1.7 maanden langer
+Groningen (PV),Noord-Holland (PV),5.7078,0.0,4.3941,7.0214,True,Groningen (PV) 5.7 maanden langer
+Groningen (PV),Overijssel (PV),-2.8388,0.0,-4.1525,-1.5251,True,Overijssel (PV) 2.8 maanden langer
+Groningen (PV),Utrecht (PV),2.4398,0.0,1.1262,3.7535,True,Groningen (PV) 2.4 maanden langer
+Groningen (PV),Weinig stedelijk,-1.4955,0.0087,-2.8091,-0.1818,True,Weinig stedelijk 1.5 maanden langer
+Groningen (PV),Zeer sterk stedelijk,5.8759,0.0,4.5623,7.1896,True,Groningen (PV) 5.9 maanden langer
+Groningen (PV),Zuid-Holland (PV),2.6455,0.0,1.3318,3.9591,True,Groningen (PV) 2.6 maanden langer
+Limburg (PV),Matig stedelijk,-1.5182,0.0068,-2.8319,-0.2045,True,Matig stedelijk 1.5 maanden langer
+Limburg (PV),Niet stedelijk,-2.5872,0.0,-3.9009,-1.2735,True,Niet stedelijk 2.6 maanden langer
+Limburg (PV),Noord-Holland (PV),4.8206,0.0,3.5069,6.1343,True,Limburg (PV) 4.8 maanden langer
+Limburg (PV),Overijssel (PV),-3.7259,0.0,-5.0396,-2.4123,True,Overijssel (PV) 3.7 maanden langer
+Limburg (PV),Stedelijkheid onbekend,-5.4501,0.0043,-10.0363,-0.864,True,Stedelijkheid onbekend 5.5 maanden langer
+Limburg (PV),Utrecht (PV),1.5527,0.0047,0.239,2.8664,True,Limburg (PV) 1.6 maanden langer
+Limburg (PV),Weinig stedelijk,-2.3826,0.0,-3.6963,-1.0689,True,Weinig stedelijk 2.4 maanden langer
+Limburg (PV),Zeer sterk stedelijk,4.9888,0.0,3.6751,6.3025,True,Limburg (PV) 5.0 maanden langer
+Limburg (PV),Zuid-Holland (PV),1.7583,0.0004,0.4446,3.072,True,Limburg (PV) 1.8 maanden langer
+Matig stedelijk,Nederland,1.842,0.0001,0.5283,3.1557,True,Matig stedelijk 1.8 maanden langer
+Matig stedelijk,Noord-Holland (PV),6.3388,0.0,5.0251,7.6525,True,Matig stedelijk 6.3 maanden langer
+Matig stedelijk,Overijssel (PV),-2.2078,0.0,-3.5214,-0.8941,True,Overijssel (PV) 2.2 maanden langer
+Matig stedelijk,Utrecht (PV),3.0709,0.0,1.7572,4.3845,True,Matig stedelijk 3.1 maanden langer
+Matig stedelijk,Zeer sterk stedelijk,6.507,0.0,5.1933,7.8206,True,Matig stedelijk 6.5 maanden langer
+Matig stedelijk,Zuid-Holland (PV),3.2765,0.0,1.9628,4.5902,True,Matig stedelijk 3.3 maanden langer
+Nederland,Niet stedelijk,-2.911,0.0,-4.2246,-1.5973,True,Niet stedelijk 2.9 maanden langer
+Nederland,Noord-Holland (PV),4.4968,0.0,3.1831,5.8105,True,Nederland 4.5 maanden langer
+Nederland,Overijssel (PV),-4.0497,0.0,-5.3634,-2.736,True,Overijssel (PV) 4.0 maanden langer
+Nederland,Stedelijkheid onbekend,-5.7739,0.0015,-10.3601,-1.1878,True,Stedelijkheid onbekend 5.8 maanden langer
+Nederland,Weinig stedelijk,-2.7064,0.0,-4.0201,-1.3927,True,Weinig stedelijk 2.7 maanden langer
+Nederland,Zeer sterk stedelijk,4.665,0.0,3.3513,5.9787,True,Nederland 4.7 maanden langer
+Nederland,Zuid-Holland (PV),1.4345,0.0162,0.1208,2.7482,True,Nederland 1.4 maanden langer
+Niet stedelijk,Noord-Brabant (PV),2.296,0.0,0.9823,3.6097,True,Niet stedelijk 2.3 maanden langer
+Niet stedelijk,Noord-Holland (PV),7.4078,0.0,6.0941,8.7214,True,Niet stedelijk 7.4 maanden langer
+Niet stedelijk,Sterk stedelijk,2.3717,0.0,1.058,3.6853,True,Niet stedelijk 2.4 maanden langer
+Niet stedelijk,Utrecht (PV),4.1398,0.0,2.8262,5.4535,True,Niet stedelijk 4.1 maanden langer
+Niet stedelijk,Zeeland (PV),2.3337,0.0,1.02,3.6474,True,Niet stedelijk 2.3 maanden langer
+Niet stedelijk,Zeer sterk stedelijk,7.5759,0.0,6.2623,8.8896,True,Niet stedelijk 7.6 maanden langer
+Niet stedelijk,Zuid-Holland (PV),4.3455,0.0,3.0318,5.6591,True,Niet stedelijk 4.3 maanden langer
+Noord-Brabant (PV),Noord-Holland (PV),5.1118,0.0,3.7981,6.4254,True,Noord-Brabant (PV) 5.1 maanden langer
+Noord-Brabant (PV),Overijssel (PV),-3.4348,0.0,-4.7484,-2.1211,True,Overijssel (PV) 3.4 maanden langer
+Noord-Brabant (PV),Stedelijkheid onbekend,-5.159,0.0105,-9.7451,-0.5728,True,Stedelijkheid onbekend 5.2 maanden langer
+Noord-Brabant (PV),Utrecht (PV),1.8439,0.0001,0.5302,3.1575,True,Noord-Brabant (PV) 1.8 maanden langer
+Noord-Brabant (PV),Weinig stedelijk,-2.0914,0.0,-3.4051,-0.7778,True,Weinig stedelijk 2.1 maanden langer
+Noord-Brabant (PV),Zeer sterk stedelijk,5.2799,0.0,3.9663,6.5936,True,Noord-Brabant (PV) 5.3 maanden langer
+Noord-Brabant (PV),Zuid-Holland (PV),2.0495,0.0,0.7358,3.3632,True,Noord-Brabant (PV) 2.0 maanden langer
+Noord-Holland (PV),Overijssel (PV),-8.5465,0.0,-9.8602,-7.2328,True,Overijssel (PV) 8.5 maanden langer
+Noord-Holland (PV),Stedelijkheid onbekend,-10.2707,0.0,-14.8569,-5.6846,True,Stedelijkheid onbekend 10.3 maanden langer
+Noord-Holland (PV),Sterk stedelijk,-5.0361,0.0,-6.3498,-3.7224,True,Sterk stedelijk 5.0 maanden langer
+Noord-Holland (PV),Utrecht (PV),-3.2679,0.0,-4.5816,-1.9542,True,Utrecht (PV) 3.3 maanden langer
+Noord-Holland (PV),Weinig stedelijk,-7.2032,0.0,-8.5169,-5.8895,True,Weinig stedelijk 7.2 maanden langer
+Noord-Holland (PV),Zeeland (PV),-5.0741,0.0,-6.3877,-3.7604,True,Zeeland (PV) 5.1 maanden langer
+Noord-Holland (PV),Zuid-Holland (PV),-3.0623,0.0,-4.376,-1.7486,True,Zuid-Holland (PV) 3.1 maanden langer
+Overijssel (PV),Sterk stedelijk,3.5104,0.0,2.1967,4.8241,True,Overijssel (PV) 3.5 maanden langer
+Overijssel (PV),Utrecht (PV),5.2786,0.0,3.9649,6.5923,True,Overijssel (PV) 5.3 maanden langer
+Overijssel (PV),Weinig stedelijk,1.3433,0.0385,0.0296,2.657,True,Overijssel (PV) 1.3 maanden langer
+Overijssel (PV),Zeeland (PV),3.4725,0.0,2.1588,4.7861,True,Overijssel (PV) 3.5 maanden langer
+Overijssel (PV),Zeer sterk stedelijk,8.7147,0.0,7.401,10.0284,True,Overijssel (PV) 8.7 maanden langer
+Overijssel (PV),Zuid-Holland (PV),5.4842,0.0,4.1705,6.7979,True,Overijssel (PV) 5.5 maanden langer
+Stedelijkheid onbekend,Sterk stedelijk,5.2346,0.0083,0.6485,9.8208,True,Stedelijkheid onbekend 5.2 maanden langer
+Stedelijkheid onbekend,Utrecht (PV),7.0028,0.0,2.4167,11.589,True,Stedelijkheid onbekend 7.0 maanden langer
+Stedelijkheid onbekend,Zeeland (PV),5.1967,0.0093,0.6105,9.7828,True,Stedelijkheid onbekend 5.2 maanden langer
+Stedelijkheid onbekend,Zeer sterk stedelijk,10.4389,0.0,5.8527,15.0251,True,Stedelijkheid onbekend 10.4 maanden langer
+Stedelijkheid onbekend,Zuid-Holland (PV),7.2084,0.0,2.6223,11.7946,True,Stedelijkheid onbekend 7.2 maanden langer
+Sterk stedelijk,Utrecht (PV),1.7682,0.0004,0.4545,3.0819,True,Sterk stedelijk 1.8 maanden langer
+Sterk stedelijk,Weinig stedelijk,-2.1671,0.0,-3.4808,-0.8534,True,Weinig stedelijk 2.2 maanden langer
+Sterk stedelijk,Zeer sterk stedelijk,5.2043,0.0,3.8906,6.518,True,Sterk stedelijk 5.2 maanden langer
+Sterk stedelijk,Zuid-Holland (PV),1.9738,0.0,0.6601,3.2875,True,Sterk stedelijk 2.0 maanden langer
+Utrecht (PV),Weinig stedelijk,-3.9353,0.0,-5.249,-2.6216,True,Weinig stedelijk 3.9 maanden langer
+Utrecht (PV),Zeeland (PV),-1.8061,0.0002,-3.1198,-0.4925,True,Zeeland (PV) 1.8 maanden langer
+Utrecht (PV),Zeer sterk stedelijk,3.4361,0.0,2.1224,4.7498,True,Utrecht (PV) 3.4 maanden langer
+Weinig stedelijk,Zeeland (PV),2.1291,0.0,0.8155,3.4428,True,Weinig stedelijk 2.1 maanden langer
+Weinig stedelijk,Zeer sterk stedelijk,7.3714,0.0,6.0577,8.6851,True,Weinig stedelijk 7.4 maanden langer
+Weinig stedelijk,Zuid-Holland (PV),4.1409,0.0,2.8272,5.4546,True,Weinig stedelijk 4.1 maanden langer
+Zeeland (PV),Zeer sterk stedelijk,5.2422,0.0,3.9286,6.5559,True,Zeeland (PV) 5.2 maanden langer
+Zeeland (PV),Zuid-Holland (PV),2.0118,0.0,0.6981,3.3254,True,Zeeland (PV) 2.0 maanden langer
+Zeer sterk stedelijk,Zuid-Holland (PV),-3.2305,0.0,-4.5442,-1.9168,True,Zuid-Holland (PV) 3.2 maanden langer

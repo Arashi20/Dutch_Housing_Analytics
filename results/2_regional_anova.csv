@@ -1,0 +1,2 @@
+test,f_statistic,p_value,significant,eta_squared,interpretation
+one_way_anova,84.8311,<1e-16,True,0.185,Significant regional differences (18.5% variance explained)

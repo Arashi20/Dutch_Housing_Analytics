@@ -1,0 +1,6 @@
+metric,value,interpretation
+slope,0.5965,Doorlooptijd stijgt 0.60 maanden per jaar
+intercept,-1185.8358,Baseline doorlooptijd in 2015
+r_squared,0.9526,95.3% variance verklaard door tijd
+p_value,2.9127e-07,Highly significant (p<0.01)
+significant,True,Trend is statistisch significant

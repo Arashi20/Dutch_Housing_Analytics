@@ -46,6 +46,24 @@ RESULTS_DIR = Path('results')
 RESULTS_DIR.mkdir(exist_ok=True)
 
 
+def format_pvalue(p):
+    """
+    Format p-value with proper precision to avoid 0.0 rounding.
+    
+    Args:
+        p: P-value (float)
+        
+    Returns:
+        Formatted string representation
+    """
+    if p < 1e-16:
+        return "<1e-16"
+    elif p < 0.001:
+        return f"{p:.4e}"  # Scientific notation (e.g., 1.2345e-10)
+    else:
+        return f"{p:.6f}"  # 6 decimals (e.g., 0.001234)
+
+
 class HousingStatisticalAnalyzer:
     """Statistical analyzer for housing crisis research"""
 
@@ -144,7 +162,7 @@ class HousingStatisticalAnalyzer:
             },
             {
                 'metric': 'p_value',
-                'value': round(p_value, 6),
+                'value': format_pvalue(p_value),
                 'interpretation': sig_text
             },
             {
@@ -194,7 +212,7 @@ class HousingStatisticalAnalyzer:
         ss_between = ((group_means - grand_mean) ** 2 * group_counts).sum()
         eta_squared = ss_between / ss_total if ss_total > 0 else 0.0
 
-        logger.info(f"  F={f_stat:.4f}, p={p_value:.6f}, eta2={eta_squared:.4f}")
+        logger.info(f"  F={f_stat:.4f}, p={format_pvalue(p_value)}, eta2={eta_squared:.4f}")
 
         interpretation = (
             f"Significant regional differences ({eta_squared * 100:.1f}% variance explained)"
@@ -205,7 +223,7 @@ class HousingStatisticalAnalyzer:
         anova_df = pd.DataFrame([{
             'test': 'one_way_anova',
             'f_statistic': round(f_stat, 4),
-            'p_value': round(p_value, 6),
+            'p_value': format_pvalue(p_value),
             'significant': significant,
             'eta_squared': round(eta_squared, 4),
             'interpretation': interpretation,
@@ -382,7 +400,7 @@ class HousingStatisticalAnalyzer:
             interpretation = f"Geen significant verschil ({effect_label})"
 
         logger.info(
-            f"  t={t_stat:.4f}, p={p_value:.6f}, "
+            f"  t={t_stat:.4f}, p={format_pvalue(p_value)}, "
             f"mean_een={mean_een:.2f}, mean_meer={mean_meer:.2f}, d={cohens_d:.4f}"
         )
 
@@ -393,7 +411,7 @@ class HousingStatisticalAnalyzer:
             'mean_2': round(mean_meer, 4),
             'mean_diff': round(mean_diff, 4),
             't_statistic': round(t_stat, 4),
-            'p_value': round(p_value, 6),
+            'p_value': format_pvalue(p_value),
             'significant': significant,
             'cohens_d': round(cohens_d, 4),
             'interpretation': interpretation,
@@ -432,7 +450,7 @@ class HousingStatisticalAnalyzer:
                 'variable_1': label1,
                 'variable_2': label2,
                 'correlation': round(r, 4),
-                'p_value': round(p, 6),
+                'p_value': format_pvalue(p),
                 'n_samples': n,
                 'significant': p < 0.05,
                 'strength': strength,
@@ -466,7 +484,7 @@ class HousingStatisticalAnalyzer:
                     'variable_1': 'Doorlooptijd_Mediaan',
                     'variable_2': 'Bottleneck_2Jaar_Pct',
                     'correlation': round(r, 4),
-                    'p_value': round(p, 6),
+                    'p_value': format_pvalue(p),
                     'n_samples': len(merged),
                     'significant': p < 0.05,
                     'strength': strength,
