@@ -157,8 +157,22 @@ Dataset 2 (82211NED - Woningen Pijplijn) bevat ~266k rijen, wat de CBS API limie
   - Nadat je de script runt krijg je een file `doorlooptijden_latest.csv` die de meest actuele complete data bevat voor dataset 1, en `woningen_pijplijn_latest.csv` voor dataset 2
   - De andere files zijn timestamped data, deze kunnen van belang zijn als je meerdere iteraties runt met andere time ranges
 
-**Statistische Anlyses**
-3. 
+**Statistische Analyses**
+
+3. In de terminal: `python python\analyze_statistics.py`
+  - Zorg dat de datasets in `data/processed/` aanwezig zijn (stap 1 en 2 zijn uitgevoerd)
+  - De script runt 6 statistische analyses en genereert 8 CSV bestanden in `results/`:
+    - `1_temporal_regression.csv` – Lineaire regressie: doorlooptijd vs. tijd
+    - `2_regional_anova.csv` – ANOVA: regionale verschillen in doorlooptijd
+    - `2_regional_anova_posthoc.csv` – Tukey HSD post-hoc paargewijze vergelijking
+    - `3_bottleneck_summary.csv` – Bottleneck statistieken per regio (alle regio's)
+    - `3_bottleneck_top10_crisis.csv` – Top 10 meest kritieke regio's
+    - `4_woningtype_ttest.csv` – T-test: eengezins- vs. meergezinswoningen
+    - `5_correlation_matrix.csv` – Pearson correlaties tussen sleutelvariabelen
+    - `6_seasonal_decomposition_doorlooptijd.csv` – STL seizoensdecompositie (kwartaal)
+    - `6_seasonal_decomposition_pijplijn.csv` – STL seizoensdecompositie (maandelijks)
+  - Logs worden opgeslagen in `logs/statistics.log`
+  - Resultaten zijn klaar voor import in Power BI (Fase 3)
 
 
 ## Verwijzingen
