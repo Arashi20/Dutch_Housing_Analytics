@@ -243,7 +243,7 @@ Dataset 2 (82211NED - Woningen Pijplijn) bevat ~266k rijen, wat de CBS API limie
 - Click **Model View** icon (linkerkant sidebar, 3e icon van boven)
 - Power BI detecteert automatisch relationships via star schema foreign keys
 
-10. Import Statistical Results (voor advanced visuals)
+10. Importeer Statistical Results (voor advanced visuals)
 
 Voor elke CSV in `results/` folder:
 
@@ -253,18 +253,18 @@ Voor elke CSV in `results/` folder:
 - Preview window: Check of de data correct is
 - Click: **"Load"**
 
-11. Create Measures Table
+11. Maak Measures Table
 - **Home** → **Enter Data** (ribbon, top)
 - **Create blank table** (Voeg geen kolommen toe)
 -  Table name: **`_Measures`** (underscore zorgt dat het bovenaan staat in Fields pane)
 -  Click: **"Load"**
-
-12. Add DAX Measures
-Voor elke measure hieronder:
--  **Right-click** op `_Measures` table (in Fields pane)
+- **Right-click** op `_Measures` table (in Fields pane)
 -  Select: **"New Measure"**
 - Schrijf de DAX code
 - Press: **Enter** (of click checkmark ✓ in formula bar)
+
+12. Start met de dashboarding!
+
 
 
 ## Verwijzingen
