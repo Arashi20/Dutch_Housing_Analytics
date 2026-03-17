@@ -151,7 +151,7 @@ Deze tabel bevat gegevens over woningen en niet-woningen in de pijplijn in Neder
   - Exporteer resultaten in results/*.csv
 
 - Fase 3: Visualisaties (Power BI)
-  - Koppel aan SQL views (pre-aggregated)
+  - Koppel aan SQL views
   - Importeer resultaten vanuit results/*.csv
   - Maak interactive dashboards
   - Voeg DAX measures toe
@@ -221,49 +221,11 @@ Dataset 2 (82211NED - Woningen Pijplijn) bevat ~266k rijen, wat de CBS API limie
 
 5. Voor SQL practice en analyse voorbeelden, zie: [`sql/sample_queries.sql`](sql/sample_queries.sql)
 
-**Power BI Setup**
 
-6. Download en installeer Power BI Desktop
-- Download: [Power BI Desktop](https://powerbi.microsoft.com/desktop/) (gratis)
-- Installeer met default settings
+## Power BI Screenshots
 
-7. SQLite ODBC Driver installeren (voor database connectie)
-- Download: [SQLite ODBC Driver](http://www.ch-werner.de/sqliteodbc/)
-  - Windows 64-bit: `sqliteodbc_w64.exe`
-  - Windows 32-bit: `sqliteodbc.exe`
-- Installeer de driver (accept defaults)
 
-8. Database importeren in Power BI
-- Open Power BI Desktop
-- **Get Data** → Search: **"ODBC"** → Select **"ODBC"**
-- Click **"Advanced"** (rechts naast DSN dropdown)
--  **Connection string:** [Copy-Paste je eigen path hier]
 
-9. Check Relationships (Model View)
-- Click **Model View** icon (linkerkant sidebar, 3e icon van boven)
-- Power BI detecteert automatisch relationships via star schema foreign keys
-
-10. Importeer Statistical Results (voor advanced visuals)
-
-Voor elke CSV in `results/` folder:
-
-- **Get Data** → **Text/CSV**
-- Browse naar `results/` folder
-- Select een CSV file (zie lijst hieronder)
-- Preview window: Check of de data correct is
-- Click: **"Load"**
-
-11. Maak Measures Table
-- **Home** → **Enter Data** (ribbon, top)
-- **Create blank table** (Voeg geen kolommen toe)
--  Table name: **`_Measures`** (underscore zorgt dat het bovenaan staat in Fields pane)
--  Click: **"Load"**
-- **Right-click** op `_Measures` table (in Fields pane)
--  Select: **"New Measure"**
-- Schrijf de DAX code
-- Press: **Enter** (of click checkmark ✓ in formula bar)
-
-12. Start met de dashboarding!
 
 
 
