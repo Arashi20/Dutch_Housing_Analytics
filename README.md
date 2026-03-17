@@ -224,9 +224,59 @@ Dataset 2 (82211NED - Woningen Pijplijn) bevat ~266k rijen, wat de CBS API limie
 
 ## Power BI Screenshots
 
+### 📊 Overzicht — Mediaan Doorlooptijd
+> Landelijk overzicht van de mediaan doorlooptijd per kwartaal (2015–2025).
 
+![Mediaan Doorlooptijd Overzicht](static/Mediaan_Doorlooptijd_Overzicht.png)
 
+---
 
+### 📈 Regionale Verschillen
+> Doorlooptijden per provincie en stedelijkheidsgraad — toont grote regionale ongelijkheid in bouwsnelheid.
+
+![Regionale Verschillen](static/Regionale_Verschillen.png)
+
+---
+
+### 🚨 Bottleneck Analyse
+> Top 10 crisis-gemeentes en fase-breakdown (vergunning vs. bouwfase) — waar loopt het bouwproces het hardst vast?
+
+![Bottleneck Analyse](static/Bottleneck_Analyse.png)
+
+---
+
+### 🏠 Woningtype Verschillen
+> Vergelijking van doorlooptijden tussen eengezins- en meergezinswoningen (t-test, Cohen's d = -1.18).
+
+![Woningtype Verschillen](static/Woningtype_Verschillen.png)
+
+---
+
+### 📉 Spreiding Doorlooptijden (P10 / Mediaan / P90)
+> Spreiding van doorlooptijden per woningtype — toont niet alleen het gemiddelde maar ook de uitschieters.
+
+![Spreiding Doorlooptijden](static/Spreiding_Doorlooptijden.png)
+
+---
+
+### 🌀 Seizoenspatronen — Doorlooptijd
+> STL-decompositie van kwartaaldata: geobserveerde waarden vs. trendlijn (2015–2025).
+
+![Seasonal Comparison Doorlooptijd](static/Seasonal_Comparison_Doorlooptijd.png)
+
+---
+
+### 🏗️ Seizoenspatronen — Bouwpijplijn Trend
+> Groei van de bouwpijplijn over tijd: van ~1.200 naar ~2.700 woningen — de pijplijn als opstoppingsmeter.
+
+![Seasonal Comparison Pijplijn](static/Seasonal_Comparison_Pijplijn.png)
+
+---
+
+### 📅 Seizoenspatronen — Maandelijkse Afwijkingen Pijplijn
+> Gemiddelde seizoensafwijking per maand — voorjaarspiek in maart/april, dal in december/januari.
+
+![Seasonal Comparison Pijplijn Afwijkingen](static/Seasonal_Comparison_Pijplijn_Afwijkingen.png)
 
 
 ## Verwijzingen
