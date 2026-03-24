@@ -279,8 +279,11 @@ Dataset 2 (82211NED - Woningen Pijplijn) bevat ~266k rijen, wat de CBS API limie
 ![Seasonal Comparison Pijplijn Afwijkingen](static/Seasonal_Comparison_Pijplijn_Afwijkingen.png)
 
 
-## Verwijzingen
+## Referenties
 
 Boelhouwer, P. J., & van der Heijden, H. M. H. (2022). De woningcrisis in Nederland vanuit een bestuurlijk
 perspectief: achtergronden en oplossingen. Bestuurskunde, 31(1), 19-33.
 https://doi.org/10.5553/Bk/092733872022031001002
+
+
+(Zie de volledige lijst in het PDF rapport!)
