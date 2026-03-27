@@ -1,0 +1,16 @@
+analysis,deelvraag,test,variable,statistic,p_value,assumption_met,interpretation
+Linear Regression,Deelvraag 1,Shapiro-Wilk,Regression residuals (yearly trend),0.9733,0.917440,True,Normal distribution assumed
+Linear Regression,Deelvraag 1,Breusch-Pagan,Regression residuals (yearly trend),3.0406,0.081205,True,Homoscedastic residuals — OLS assumptions met
+Linear Regression,Deelvraag 1,Durbin-Watson,Regression residuals (yearly trend),1.7817,n/a,True,No autocorrelation in residuals (DW ≈ 2.0)
+One-way ANOVA,Deelvraag 2,Shapiro-Wilk (per group),Doorlooptijd_Mediaan per Regio_Naam,0/19 groups normal,multiple,False,Only 0.0% of regions normally distributed — consider Kruskal-Wallis as non-parametric alternative
+One-way ANOVA,Deelvraag 2,Levene's,Doorlooptijd_Mediaan across all regions,30.3453,<1e-16,False,Unequal variances across regions — Welch's ANOVA recommended
+Independent t-test,Deelvraag 4,Shapiro-Wilk,Eengezinswoning,0.9727,<1e-16,False,Non-normal distribution detected — consider robust alternative
+Independent t-test,Deelvraag 4,Shapiro-Wilk,Meergezinswoning,0.9239,<1e-16,False,Non-normal distribution detected — consider robust alternative
+Independent t-test,Deelvraag 4,Levene's,Eengezinswoning vs Meergezinswoning,415.6779,<1e-16,False,Unequal variances detected — use Welch correction (Welch correction already applied in analysis)
+Pearson Correlation,Deelvraag 3/5,Shapiro-Wilk,Doorlooptijd_Mediaan (aggregated),,nan,False,Non-normal distribution detected — consider robust alternative
+Pearson Correlation,Deelvraag 3/5,Shapiro-Wilk,Bottleneck_2Jaar_Pct (aggregated),,nan,False,Non-normal distribution detected — consider robust alternative
+Pearson Correlation,Deelvraag 3/5,Shapiro-Wilk,Bottleneck_2Jaar_Pct (pijplijn),0.8863,<1e-16,False,Non-normal distribution detected (subsample n=5000 of 88825) — consider robust alternative
+Pearson Correlation,Deelvraag 3/5,Shapiro-Wilk,Vergunning_Fase_Pct (pijplijn),0.9565,<1e-16,False,Non-normal distribution detected (subsample n=5000 of 88825) — consider robust alternative
+Pearson Correlation,Deelvraag 3/5,Shapiro-Wilk,Bouw_Fase_Pct (pijplijn),0.9579,<1e-16,False,Non-normal distribution detected (subsample n=5000 of 88825) — consider robust alternative
+Pearson Correlation,Deelvraag 3/5,Linearity (visual),All correlation pairs,n/a,n/a,,Linearity assumed — verify via scatterplots in Power BI / EDA step
+STL Decomposition,Deelvraag 5,None required,Doorlooptijd_Mediaan / Pijplijn_Totaal,n/a,n/a,True,STL is a descriptive/exploratory technique — no distributional assumptions apply

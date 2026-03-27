@@ -1,0 +1,2 @@
+test,h_statistic,p_value,significant,eta_squared,n_groups,n_total,interpretation,parametric_equivalent
+kruskal_wallis,1425.9987,<1e-16,True,0.2092,19,6748,Significant regional differences detected (η²=0.209),one_way_anova (results/2_regional_anova.csv)
