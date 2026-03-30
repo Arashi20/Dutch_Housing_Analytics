@@ -7,7 +7,7 @@ PBIX bestand: powerbi/Dutch_Housing_Dashboard.pbix
 
 ## Pagina 1: Overzicht
 
-Measure naam: Avg Doorlooptijd
+#### Measure naam: Avg Doorlooptijd
 - Beschrijving: Gemiddelde doorlooptijd berekenen.
 - DAX:
 ```dax
@@ -27,7 +27,7 @@ CALCULATE(
   - dim_gebruiksfunctie[naam] = "Woning totaal"
   - dim_woningtype[naam] = "Totaal"
 
-Measure naam:
+#### Measure naam:
 
 
 ## Pagina 2: Trendanalyse
