@@ -487,3 +487,4 @@ CALCULATE(
 
 ## Pagina 6: Seizoenspatronen
 
+Deze pagina maakt geen gebruik van DAX measures. 
