@@ -231,12 +231,6 @@ Dataset 2 (82211NED - Woningen Pijplijn) bevat ~266k rijen, wat de CBS API limie
 
 ---
 
-### 📈 Regionale Verschillen
-> Doorlooptijden per provincie en stedelijkheidsgraad — toont grote regionale ongelijkheid in bouwsnelheid.
-
-![Regionale Verschillen](static/Regionale_Verschillen.png)
-
----
 
 ### 🚨 Bottleneck Analyse
 > Top 10 crisis-gemeentes en fase-breakdown (vergunning vs. bouwfase) — waar loopt het bouwproces het hardst vast?
@@ -245,12 +239,6 @@ Dataset 2 (82211NED - Woningen Pijplijn) bevat ~266k rijen, wat de CBS API limie
 
 ---
 
-### 🏠 Woningtype Verschillen
-> Vergelijking van doorlooptijden tussen eengezins- en meergezinswoningen (t-test, Cohen's d = -1.18).
-
-![Woningtype Verschillen](static/Woningtype_Verschillen.png)
-
----
 
 ### 📉 Spreiding Doorlooptijden (P10 / Mediaan / P90)
 > Spreiding van doorlooptijden per woningtype — toont niet alleen het gemiddelde maar ook de uitschieters.
@@ -286,4 +274,5 @@ perspectief: achtergronden en oplossingen. Bestuurskunde, 31(1), 19-33.
 https://doi.org/10.5553/Bk/092733872022031001002
 
 
-(Zie de volledige lijst in het PDF rapport!)
+Zie de volledige lijst in het PDF rapport:
+![EINDRAPPORT_De_Nederlandse_Woningcrisis](./EINDRAPPORT_De_Nederlandse_Woningcrisis.pdf)
