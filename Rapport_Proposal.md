@@ -39,3 +39,6 @@ Laat blijken dat de zorg bij de mensen heel groot is en dat vele mensen (vooral 
 
 ## Conclusie
 kort antwoord geven op de hoofdvraag door de resultaten van vorige pararaaf samen te vatten in 1 zin van 2-3 regels. Vervolgens wat beleidsmaatregelen voorstellen en eventuele vervolgstudies
+
+## Aanbevelingen
+Aanbevelingen op basis van de bevindingen. Welke maatregelen kunnen genomen worden om de woningcrisis op te lossen/te verlichten?
