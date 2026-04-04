@@ -4,10 +4,10 @@ Nederland wordt al tientallen jaren geteisterd door een (structureel) woningteko
 
 Dit woningtekort raakt alle Nederlanders, maar beperkt toch vooral de mogelijkheden van de starters en middeninkomens op de woningmarkt (Boelhouwer & van der Heijden, 2022). 
 
-Zelf kamp ik ook ernstig met dit probleem. Met een WO-diploma op zak kun je in vele sectoren passend werk vinden, alleen kun je met de juniorsalaris nog lang geen huis kopen. 
+Zelf kamp ik ook ernstig met dit probleem. Met een WO-diploma op zak kun je in vele sectoren passend werk vinden, alleen kun je met het juniorsalaris nog lang geen huis kopen. 
 
 
-Aangezien de huidige woningcrisis in Nederland (anno 2026) niet nieuw is -- eerder een slepend probleem waar veel ogen en haken aan vastzitten -- wil ik zelf in de cijfers van het CBS duiken (omtrent woningbouw) om de knelpunten te begrijpen, visualisaties te maken van de data, en een algemee beeld te krijgen van de Nederlandse woningmarkt over de jaren heen. 
+Aangezien de huidige woningcrisis in Nederland (anno 2026) niet nieuw is -- eerder een slepend probleem waar veel ogen en haken aan vastzitten -- wil ik zelf in de cijfers van het CBS duiken (omtrent woningbouw) om de knelpunten te begrijpen, visualisaties te maken van de data, en een algemeen beeld te krijgen van de Nederlandse woningmarkt over de jaren heen. 
 
 Het volledige rapport kan men hier vinden:
 ![EINDRAPPORT_De_Nederlandse_Woningcrisis](./EINDRAPPORT_De_Nederlandse_Woningcrisis.pdf)
