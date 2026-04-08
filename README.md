@@ -12,6 +12,9 @@ Aangezien de huidige woningcrisis in Nederland (anno 2026) niet nieuw is -- eerd
 Het volledige rapport kan men hier vinden:
 ![EINDRAPPORT_De_Nederlandse_Woningcrisis](./EINDRAPPORT_De_Nederlandse_Woningcrisis.pdf)
 
+In deze video ga ik kort door het Power BI dashboard heen (de volledige analyse staat in het rapport):
+[text](https://youtu.be/86OeQYNH-AI?si=EtKAi1SAArjqTKB8)
+
 ## Onderzoekskader
 
 ### Hoofdvraag
